@@ -9,19 +9,6 @@ let works;
 })();
 */
 
-/*  A garder dans un coin pour comprendre le fonctionnement si besoin 
-const fetchUrls = [
-    "http://localhost:5678/api/endpoint1",
-    "http://localhost:5678/api/endpoint2"
-  ];
-  
-  const responses = await Promise.all(
-    fetchUrls.map(url => fetch(url).then(response => response.json()))
-  );
-  
-  const [data1, data2] = responses;
-   */
-
 // Récupération des données de l'API
 const response = await fetch("http://localhost:5678/api/works");
 const works = await response.json();
@@ -69,7 +56,6 @@ async function ajouterBoutonsFiltrer() {
 
 		const sectionFiltres = document.querySelector(".filtres");
 		sectionFiltres.appendChild(filtreElement);
-		//TODO : créer une classe CSS pour les boutons de filtres
 		filtreElement.classList.add("filtre");
 		// On appelle la fonction pour ajouter un event listener sur chaque bouton de filtre
 		ajouterEventListener(filtreElement, categorie);
@@ -78,9 +64,16 @@ async function ajouterBoutonsFiltrer() {
 
 function ajouterEventListener(filtreElement, categorie) {
 	// On ajoute un event listener sur chaque bouton de filtre
-	filtreElement.addEventListener("click", () => {
-		//TODO : modifier la classe CSS du bouton cliqué pour le mettre en surbrillance
+	filtreElement.addEventListener("click", (e) => {
 		const gallery = document.querySelector(".gallery");
+		// On retire la classe CSS "actif" de tous les boutons de filtre
+		const filtres = document.querySelectorAll(".filtre");
+		filtres.forEach((filtre) => {
+			filtre.dataset.actif = "false";
+		});
+		// On ajoute la classe CSS "actif" au bouton de filtre cliqué
+		e.target.dataset.actif = "true";
+
 		if (categorie === "Tous") {
 			// On vide la galerie
 			gallery.innerHTML = "";
