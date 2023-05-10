@@ -2,7 +2,7 @@
 
 ### A garder dans un coin pour comprendre le fonctionnement si besoin
 
-` const fetchUrls = [
+```const fetchUrls = [
 "http://localhost:5678/api/endpoint1",
 "http://localhost:5678/api/endpoint2"
 ];
@@ -12,4 +12,4 @@ fetchUrls.map(url => fetch(url).then(response => response.json()))
 );
 
 const [data1, data2] = responses;
-`
+```
