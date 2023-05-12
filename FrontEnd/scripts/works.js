@@ -1,20 +1,15 @@
-// import { ajouterBoutonsFiltrer } from "./filtres.js";
-
-/* Est-ce la bonne méthode pour utiliser "works" en dehors d'une async ? 
-let works;
-(async () => {
-  const response = await fetch("http://localhost:5678/api/works");
-  works = await response.json();
-  getWorks(works);
-})();
-*/
+//TODO : function "performeget" en passant une URL en paramètre avec une const de l'URL de l'API
+//TODO : Créer une fonction qui fetch et return les resultats (resp.json())+ gestion d'erreur (catch).
 
 // Récupération des données de l'API
 const response = await fetch("http://localhost:5678/api/works");
 const works = await response.json();
-// Fonctionne en dehors d'une fonction async depuis que j'ai ajouté role : "module" dans le script du HTML
-// Fonction pour générer la galerie
+
+// TODO : Fonction pour générer la galerie (=> renommer genererGalerie)
 async function getWorks(works) {
+	// TODO : appeler la fonction fetch et stock en const)
+
+	// TODO : cours sur for of -> (for work of works)
 	const worksId = works.map((work) => work.id);
 	const worksImageUrl = works.map((work) => work.imageUrl);
 	const worksTitle = works.map((work) => work.title);
@@ -36,7 +31,6 @@ async function getWorks(works) {
 		gallery.appendChild(work);
 	}
 }
-
 // On appelle la fonction une première fois pour générer la galerie avec tous les éléments de l'API
 getWorks(works);
 // On appelle la fonction pour générer les boutons de filtres
@@ -44,9 +38,9 @@ ajouterBoutonsFiltrer();
 
 //TODO : placer les fonctions liées aux filtres dans un fichier à part (comprendre comment passer les variables entre les fichiers)
 async function ajouterBoutonsFiltrer() {
+	//TODO : créer un set (pour éviter les doublons) => récupérer les categories de l'API works
 	const response = await fetch("http://localhost:5678/api/categories");
 	const data = await response.json();
-
 	const categories = data.map((data) => data.name);
 	categories.unshift("Tous");
 
@@ -90,3 +84,8 @@ function ajouterEventListener(filtreElement, categorie) {
 		}
 	});
 }
+
+//TODO : renseignements sur webpackage
+
+
+//TODO : Next week : formulaire de connexion => gestion des erreurs (mauvais email/password...user non existing...)
