@@ -1,9 +1,13 @@
 **_ NOTES _**
 
-### PROBLEMES RENCONTRES ###
+### PROBLEMES RENCONTRES ET QUESTIONS ###
 
-TODO : Pour ajouter un users dans la db, j'ai du ouvrir la route "signup" et tweaker le code une fois pour créer "admin@admin.fr" et "1234"
+- Pour ajouter un users dans la db, j'ai du ouvrir la route "signup" et tweaker le code une fois pour créer "admin@admin.fr" et "1234"
 Mais je n'ai pas attribué ou stocké de token.
+
+- Bannière de modifications : l'icone / le texte doivent-ils être considérés comme des boutons ? 
+
+
 
 
 
