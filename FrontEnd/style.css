@@ -349,15 +349,14 @@ a {
 /* Fixer la page à 100vh et stack le footer en bas de page */
 /* TODO : regarder le comportement en reponsive */
 .body-login {
-	height: 100vh;
-	display: flex;
-	flex-direction: column;
+	display: grid;
+	grid-template-rows: auto 1fr auto;
+	min-height: 100vh;
 }
 
+/* Centrer le main sur la page */
 .body-login main {
-	display: flex;
-	flex-direction: column;
-	flex-grow: 1;
+	display: grid;
 }
 
 body>* {

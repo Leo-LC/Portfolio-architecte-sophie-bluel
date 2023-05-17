@@ -1,5 +1,12 @@
 **_ NOTES _**
 
+### PROBLEMES RENCONTRES ###
+
+TODO : Pour ajouter un users dans la db, j'ai du ouvrir la route "signup" et tweaker le code une fois pour créer "admin@admin.fr" et "1234"
+Mais je n'ai pas attribué ou stocké de token.
+
+
+
 ### A garder dans un coin pour comprendre le fonctionnement si besoin
 
 ```const fetchUrls = [

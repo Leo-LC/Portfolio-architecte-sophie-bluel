@@ -12,6 +12,8 @@
     <meta name="description" content="">
 
     <link rel="stylesheet" href="./style.css">
+
+    <script src="./scripts/login.js" defer></script>
     <title>Log In</title>
 </head>
 
@@ -22,25 +24,29 @@
             <ul>
                 <li><a href="./index.html">projets</a></li>
                 <li>contact</li>
+                <!-- TODO : dynamic login / logout with js if isLoggedIn() -->
                 <li><a href="./login.html">login</a></li>
                 <li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
             </ul>
         </nav>
+        <!-- TODO : dynamic modify-open modal JS if isLoggedIn() -->
     </header>
 
     <main>
         <!-- TODO : définir action et method -->
         <section id="login">
             <h2>Log In</h2>
-            <form action="#" method="">
+            <form novalidate>
                 <label for="email">Email</label>
-                <input type="email" name="email" id="email" placeholder="">
+                <input type="email" name="email" id="email" required autofocus autocomplete="off">
                 <label for="password">Password</label>
-                <input type="password" name="password" id="password" placeholder="">
-                <input type="submit" value="Se connecter">
+                <input type="password" name="password" id="password" required>
+                <input type="submit" value="Se connecter" id="submit">
             </form>
             <p><a href="">Mot de passe oublié</a></p>
         </section>
+
+        <!-- TODO : formulaire de signup de user ? -->
     </main>
 
     <footer>

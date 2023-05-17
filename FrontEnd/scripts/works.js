@@ -1,5 +1,6 @@
 //TODO : function "performeget" en passant une URL en paramètre avec une const de l'URL de l'API
 //TODO : Créer une fonction qui fetch et return les resultats (resp.json())+ gestion d'erreur (catch).
+//TODO : Penser à l'élément nav en gras quand on est sur la page correspondante
 
 // Récupération des données de l'API
 const response = await fetch("http://localhost:5678/api/works");
@@ -86,6 +87,5 @@ function ajouterEventListener(filtreElement, categorie) {
 }
 
 //TODO : renseignements sur webpackage
-
 
 //TODO : Next week : formulaire de connexion => gestion des erreurs (mauvais email/password...user non existing...)
