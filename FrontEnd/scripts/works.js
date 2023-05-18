@@ -89,3 +89,49 @@ function ajouterEventListener(filtreElement, categorie) {
 //TODO : renseignements sur webpackage
 
 //TODO : Next week : formulaire de connexion => gestion des erreurs (mauvais email/password...user non existing...)
+
+// Générer les works dans la modale
+
+const modalGallery = document.querySelector(".modal-gallery");
+const modalGalleryPicture = document.querySelector(".modal-gallery-picture");
+
+function genererModalWorks(works) {
+	works.forEach((work) => {
+		const figure = document.createElement("figure");
+		figure.classList.add("modal-gallery-figure");
+
+		// TODO : transformer le figcaption en bouton interactif pour event listener
+		const figcaption = document.createElement("figcaption");
+		figcaption.innerText = "éditer";
+
+		// TODO : transformer les i en bouton interactif pour event listener
+		const deleteIcon = document.createElement("i");
+		deleteIcon.classList.add(
+			"modal-picture-delete",
+			"fa-solid",
+			"fa-trash-can"
+		);
+
+		const moveIcon = document.createElement("i");
+		moveIcon.classList.add(
+			"modal-picture-move",
+			"fa-solid",
+			"fa-up-down-left-right"
+		);
+
+		const image = document.createElement("img");
+		image.src = work.imageUrl;
+		image.dataset.id = work.id;
+
+		figure.appendChild(image);
+		figure.appendChild(figcaption);
+		figure.appendChild(deleteIcon);
+		// TODO : append le moveicon seulement au survol de la figure
+		figure.appendChild(moveIcon);
+		modalGallery.appendChild(figure);
+	});
+}
+
+genererModalWorks(works);
+
+//TODO : warning sur "supprimer la galerie"
