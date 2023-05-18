@@ -2,10 +2,8 @@
 document.addEventListener("DOMContentLoaded", updateLayout);
 
 // check if a token is in the local storage and returns true if it is
-// TODO : handle token storage in the login.js
 function isLoggedIn() {
-	// return localStorage.getItem("token") !== null;
-	return true;
+	return localStorage.getItem("userToken") !== null;
 }
 
 // update the navbar depending on if the user is logged in or not
@@ -15,16 +13,13 @@ function updateLayout() {
 	const boutonsModifier = document.querySelectorAll(".modifier");
 	// if the user is logged in, show the logout button that will refresh the page and remove the token from the local storage
 	if (isLoggedIn()) {
-		login.innerHTML = `<a href="">logout</a>`;
+		login.innerHTML = `<a>logout</a>`;
 		editionTab.style.display = "flex";
 		boutonsModifier.forEach((bouton) => {
-			bouton.classList.toggle("visually-hidden");
+			bouton.classList.remove("visually-hidden");
 		});
-		// TODO : créer une fonction handleLogout() qui va gérer le logout ?
-		login.onclick = function () {
-			localStorage.removeItem("token");
-			window.location.reload();
-		};
+
+		login.onclick = handleLogout;
 	} else {
 		login.innerHTML = `<a href="./login.html">login</a>`;
 		editionTab.style.display = "none";
@@ -33,4 +28,9 @@ function updateLayout() {
 			window.location.href = "/login.html";
 		};
 	}
+}
+
+function handleLogout() {
+	localStorage.removeItem("userToken");
+	window.location.reload();
 }

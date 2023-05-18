@@ -305,6 +305,7 @@ li:hover {
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	padding-left: 1rem;
 }
 
 #contact label,
@@ -326,6 +327,7 @@ input[type="submit"] {
 	width: 180px;
 	text-align: center;
 	border-radius: 60px;
+	cursor: pointer;
 }
 
 footer nav ul {
@@ -370,6 +372,7 @@ body {
 a {
 	text-decoration: none;
 	color: inherit;
+	cursor: pointer;
 }
 
 
@@ -403,7 +406,8 @@ footer nav {
 }
 
 .visually-hidden {
-	display: none;
+	opacity: 0;
+	pointer-events: none;
 }
 
 /* TODO : gérer la position des items */
@@ -413,3 +417,54 @@ footer nav {
 }
 
 /* TODO : gérer la max-width de "main" sur index.html pour coller au design*/
+
+/* Error Input styling */
+
+.error-text {
+	text-align: center;
+	color: red;
+	position: relative;
+	font-weight: 700;
+	top: 1rem;
+}
+
+#email.invalid-input,
+#password.invalid-input {
+	border: 2px solid rgba(255, 0, 0, 0.5);
+	animation: shake .5s ease;
+}
+
+#email.invalid-input:focus,
+#password.invalid-input:focus {
+	outline-offset: 1px;
+}
+
+@keyframes shake {
+	0% {
+		transform: translateX(0);
+	}
+
+	20% {
+		transform: translateX(-10px);
+	}
+
+	40% {
+		transform: translateX(10px);
+	}
+
+	60% {
+		transform: translateX(-10px);
+	}
+
+	80% {
+		transform: translateX(10px);
+	}
+
+	100% {
+		transform: translateX(0);
+	}
+}
+
+/*TODO : ajouter un style :hover sur les boutons */
+/*TODO : tester le changements de style du bouton en fonction de la validité email / mdp pour se challenger */
+/*TODO : réorganiser le css */

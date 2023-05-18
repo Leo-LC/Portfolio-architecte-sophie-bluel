@@ -1,6 +1,7 @@
 const loginForm = document.getElementById("login");
 const email = document.getElementById("email");
 const password = document.getElementById("password");
+const errorText = document.querySelector(".error-text");
 
 loginForm.addEventListener("submit", async (e) => {
 	e.preventDefault();
@@ -9,10 +10,11 @@ loginForm.addEventListener("submit", async (e) => {
 	loginUser();
 });
 
-//TODO : add a custom message / styling in case of error and remove console logs
+//TODO : add a custom message / styling in case of error
 function validateEmail() {
-	const validEmail = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
-	!validEmail.test(email.value.toLowerCase())
+	const validEmail = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/i;
+
+	!validEmail.test(email.value)
 		? console.log("invalid email")
 		: console.log("valid email");
 }
@@ -25,10 +27,9 @@ async function loginUser() {
 	let user = {
 		email: email.value,
 		password: password.value,
-		userID: "",
-		token: "",
 	};
 
+	// Call the API to check if the combination email/password is valid
 	try {
 		const response = await fetch("http://localhost:5678/api/users/login", {
 			method: "POST",
@@ -37,28 +38,18 @@ async function loginUser() {
 			},
 			body: JSON.stringify(user),
 		});
-
 		const data = await response.json();
 
+		// If the login is successful, save the token in the local storage and redirect to the index page
 		if (response.ok) {
-			//TODO :  Redirect to the homepage if login is successful
-			console.log("Login successful");
-			// window.location.href = "./index.html";
-			console.log(response);
-			console.log(data.userId);
-			console.log(data.token);
-			// TODO : Save the token in local storage
-			// TODO : check if the user is saved in local storage, if not : save it with its token and userID
-			// I want to save the token in local storage
-
-			/*localStorage.setItem("token", data.token);
-			console.log(localStorage.getItem("token"));
-			console.log(data.token);
-            */
+			localStorage.setItem("userToken", data.token);
+			window.location.href = "./index.html";
 		} else {
-			// Show an error message if login fails
-			//TODO : call a function to display the error message
-			alert("Invalid email or password");
+			email.classList.remove("invalid-input");
+			password.classList.remove("invalid-input");
+			email.classList.add("invalid-input");
+			password.classList.add("invalid-input");
+			errorText.classList.remove("visually-hidden");
 		}
 	} catch (error) {
 		console.error("Error:", error);
