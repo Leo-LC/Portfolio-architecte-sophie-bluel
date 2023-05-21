@@ -135,3 +135,5 @@ function genererModalWorks(works) {
 genererModalWorks(works);
 
 //TODO : warning sur "supprimer la galerie"
+
+//TODO : export le modal dans son propre fichier ? nécessite d'exporter la fonction fetch et/ou les res.json()

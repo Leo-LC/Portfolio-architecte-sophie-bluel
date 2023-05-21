@@ -10,6 +10,7 @@ function isLoggedIn() {
 function updateLayout() {
 	const login = document.getElementById("login-logout");
 	const editionTab = document.querySelector(".edition-tab");
+	const edit = document.querySelectorAll(".edit");
 	const boutonsModifier = document.querySelectorAll(".modifier");
 	// if the user is logged in, show the logout button that will refresh the page and remove the token from the local storage
 	if (isLoggedIn()) {
@@ -17,6 +18,10 @@ function updateLayout() {
 		editionTab.style.display = "flex";
 		boutonsModifier.forEach((bouton) => {
 			bouton.classList.remove("visually-hidden");
+		});
+
+		edit.forEach((bouton) => {
+			bouton.addEventListener("click", openModal);
 		});
 
 		login.onclick = handleLogout;
@@ -33,4 +38,24 @@ function updateLayout() {
 function handleLogout() {
 	localStorage.removeItem("userToken");
 	window.location.reload();
+}
+
+function openModal() {
+	if (isLoggedIn()) {
+		const modal = document.querySelector(".modal");
+		const close = document.getElementById("modal-close");
+		modal.style.display = "flex";
+
+		//TODO : simplifier le code en utilisant une fonction closeModal.
+		close.addEventListener("click", () => {
+			modal.style.display = "none";
+		});
+
+		window.addEventListener("keydown", (e) => {
+			if (e.key === "Escape") {
+				modal.style.display = "none";
+				window.removeEventListener("keydown", e);
+			}
+		});
+	}
 }

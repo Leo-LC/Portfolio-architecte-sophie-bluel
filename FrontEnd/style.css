@@ -476,9 +476,10 @@ footer nav {
 	z-index: 2;
 	inset: 0;
 	background-color: rgba(0, 0, 0, 0.5);
-	display: flex;
 	justify-content: center;
 	align-items: center;
+
+	display: none;
 }
 
 .modal-wrapper {
@@ -575,6 +576,11 @@ footer nav {
 	background: none;
 }
 
-.modal button {
+.modal button,
+.edit {
 	cursor: pointer;
+}
+
+.modal-close {
+	z-index: 2;
 }
