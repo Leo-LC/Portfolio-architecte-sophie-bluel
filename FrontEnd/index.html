@@ -13,8 +13,6 @@
 	<link rel="stylesheet" href="./style.css">
 
 	<script src="https://kit.fontawesome.com/bf28b7cad2.js" crossorigin="anonymous"></script>
-	<script src="./scripts/works.js" type="module"></script>
-	<script src="./scripts/index.js" defer></script>
 </head>
 
 <body>
@@ -22,13 +20,33 @@
 	<!-- TODO : propriétés d'accessibilité modal -->
 	<!-- TODO : use the new dialog element ? https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog -->
 	<aside class="modal" id="modal">
-		<div class="modal-wrapper">
+		<div class="modal-wrapper" id="modal-1">
 			<h3 id="modal-title">Galerie photo</h3>
 			<button id="modal-close"><i class="fa-solid fa-xmark"></i></button>
 			<div class="modal-gallery">
 			</div>
 			<button id="modal-add-picture">Ajouter une photo</button>
 			<button id="modal-deleter-galerie">Supprimer la galerie</button>
+		</div>
+
+		<div class="modal-wrapper" id="modal-2">
+			<h3 id="modal-title">Ajout Photo</h3>
+			<button id="modal-close"><i class="fa-solid fa-xmark"></i></button>
+			<button id="modal-back"><i class="fa-solid fa-arrow-left-long"></i></button>
+			<form id="upload-image" action="">
+				<label for="input-image" class="drop-container">
+					<span><i class="fa-regular fa-image"></i></span>
+					<span class="button">+ Ajouter Photo</span>
+					<span class="input-image-instructions">jpg, png : 4mo max</span>
+					<input type="file" name="input-image" id="input-image" accept=".jpg, .jpeg, .png">
+				</label>
+				<label for="titre">Titre</label>
+				<input name="titre" id="titre" type="text">
+				<label for="categorie">Catégorie</label>
+				<input name="categorie" id="categorie" type="text">
+			</form>
+			<button id="modal-validate-add-picture">Valider</button>
+
 		</div>
 	</aside>
 	<div class="edition-tab">
@@ -102,6 +120,11 @@
 			</ul>
 		</nav>
 	</footer>
+
+	<script src="./scripts/index.js" type="module"></script>
+	<script src="./scripts/works.js" type="module"></script>
+	<script src="./scripts/modal.js" type="module"></script>
 </body>
+
 
 </html>

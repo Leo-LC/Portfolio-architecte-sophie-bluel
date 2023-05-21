@@ -1,13 +1,13 @@
+import { fetchWorks } from "./data.js";
+
 //TODO : function "performeget" en passant une URL en paramètre avec une const de l'URL de l'API
-//TODO : Créer une fonction qui fetch et return les resultats (resp.json())+ gestion d'erreur (catch).
 //TODO : Penser à l'élément nav en gras quand on est sur la page correspondante
 
 // Récupération des données de l'API
-const response = await fetch("http://localhost:5678/api/works");
-const works = await response.json();
+const works = await fetchWorks();
 
 // TODO : Fonction pour générer la galerie (=> renommer genererGalerie)
-async function getWorks(works) {
+async function genererGalerie(works) {
 	// TODO : appeler la fonction fetch et stock en const)
 
 	// TODO : cours sur for of -> (for work of works)
@@ -33,7 +33,7 @@ async function getWorks(works) {
 	}
 }
 // On appelle la fonction une première fois pour générer la galerie avec tous les éléments de l'API
-getWorks(works);
+genererGalerie(works);
 // On appelle la fonction pour générer les boutons de filtres
 ajouterBoutonsFiltrer();
 
@@ -73,7 +73,7 @@ function ajouterEventListener(filtreElement, categorie) {
 			// On vide la galerie
 			gallery.innerHTML = "";
 			// On appelle la fonction pour générer la galerie avec tous les éléments de l'API
-			getWorks(works);
+			genererGalerie(works);
 			return;
 		} else {
 			const worksFiltres = works.filter((work) => {
@@ -81,7 +81,7 @@ function ajouterEventListener(filtreElement, categorie) {
 			});
 			gallery.innerHTML = "";
 			// On appelle la fonction pour générer la galerie avec les éléments filtrés
-			getWorks(worksFiltres);
+			genererGalerie(worksFiltres);
 		}
 	});
 }
@@ -90,50 +90,3 @@ function ajouterEventListener(filtreElement, categorie) {
 
 //TODO : Next week : formulaire de connexion => gestion des erreurs (mauvais email/password...user non existing...)
 
-// Générer les works dans la modale
-
-const modalGallery = document.querySelector(".modal-gallery");
-const modalGalleryPicture = document.querySelector(".modal-gallery-picture");
-
-function genererModalWorks(works) {
-	works.forEach((work) => {
-		const figure = document.createElement("figure");
-		figure.classList.add("modal-gallery-figure");
-
-		// TODO : transformer le figcaption en bouton interactif pour event listener
-		const figcaption = document.createElement("figcaption");
-		figcaption.innerText = "éditer";
-
-		// TODO : transformer les i en bouton interactif pour event listener
-		const deleteIcon = document.createElement("i");
-		deleteIcon.classList.add(
-			"modal-picture-delete",
-			"fa-solid",
-			"fa-trash-can"
-		);
-
-		const moveIcon = document.createElement("i");
-		moveIcon.classList.add(
-			"modal-picture-move",
-			"fa-solid",
-			"fa-up-down-left-right"
-		);
-
-		const image = document.createElement("img");
-		image.src = work.imageUrl;
-		image.dataset.id = work.id;
-
-		figure.appendChild(image);
-		figure.appendChild(figcaption);
-		figure.appendChild(deleteIcon);
-		// TODO : append le moveicon seulement au survol de la figure
-		figure.appendChild(moveIcon);
-		modalGallery.appendChild(figure);
-	});
-}
-
-genererModalWorks(works);
-
-//TODO : warning sur "supprimer la galerie"
-
-//TODO : export le modal dans son propre fichier ? nécessite d'exporter la fonction fetch et/ou les res.json()

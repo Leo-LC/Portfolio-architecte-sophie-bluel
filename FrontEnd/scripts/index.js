@@ -1,8 +1,10 @@
+console.log(nextModal);
+
 //update the navbar when the DOM is loaded
 document.addEventListener("DOMContentLoaded", updateLayout);
 
 // check if a token is in the local storage and returns true if it is
-function isLoggedIn() {
+export function isLoggedIn() {
 	return localStorage.getItem("userToken") !== null;
 }
 
@@ -29,7 +31,6 @@ function updateLayout() {
 		login.innerHTML = `<a href="./login.html">login</a>`;
 		editionTab.style.display = "none";
 		login.onclick = function () {
-			// window.location.href = "./login.html";
 			window.location.href = "/login.html";
 		};
 	}
@@ -44,18 +45,39 @@ function openModal() {
 	if (isLoggedIn()) {
 		const modal = document.querySelector(".modal");
 		const close = document.getElementById("modal-close");
+		const addPicture = document.getElementById("modal-add-picture");
+		const previous = document.getElementById("modal-back");
 		modal.style.display = "flex";
 
 		//TODO : simplifier le code en utilisant une fonction closeModal.
 		close.addEventListener("click", () => {
 			modal.style.display = "none";
 		});
-
 		window.addEventListener("keydown", (e) => {
 			if (e.key === "Escape") {
 				modal.style.display = "none";
 				window.removeEventListener("keydown", e);
 			}
 		});
+		addPicture.addEventListener("click", nextModal);
+		previous.addEventListener("click", prevModal);
+		//TODO : ajouter eventlistener quand on click en dehors de la modale
 	}
+}
+
+//TODO : prev/next with parameters
+function nextModal() {
+	const modal1 = document.getElementById("modal-1");
+	const modal2 = document.getElementById("modal-2");
+	//TODO : toggle une classe hidden au lieu de changer le display ?
+	modal1.style.display = "none";
+	modal2.style.display = "flex";
+}
+
+function prevModal() {
+	const modal1 = document.getElementById("modal-1");
+	const modal2 = document.getElementById("modal-2");
+	//TODO : toggle une classe hidden au lieu de changer le display ?
+	modal1.style.display = "flex";
+	modal2.style.display = "none";
 }

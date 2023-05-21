@@ -280,7 +280,8 @@ li:hover {
 }
 
 #contact>*,
-#login>* {
+#login>*,
+#upload-image>* {
 	text-align: center;
 
 }
@@ -291,7 +292,8 @@ li:hover {
 }
 
 #contact form,
-#login form {
+#login form,
+#upload-image form {
 	text-align: left;
 	margin-top: 30px;
 	display: flex;
@@ -299,7 +301,8 @@ li:hover {
 }
 
 #contact input,
-#login input {
+#login input,
+#upload-image input:not([type="file"]) {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
@@ -502,14 +505,25 @@ footer nav {
 	font-size: 26px;
 }
 
-#modal-close {
+#modal-close,
+#modal-back {
 	position: absolute;
 	top: 32px;
-	right: 32px;
 	border: none;
 	background: none;
 	font-size: 20px;
 }
+
+#modal-close {
+	right: 32px;
+}
+
+#modal-back {
+	left: 32px;
+}
+
+
+
 
 .modal-gallery {
 	border-bottom: 1px solid #B3B3B3;
@@ -555,16 +569,26 @@ footer nav {
 	right: calc(6px + 17px + 3px);
 }
 
-#modal-add-picture {
+#modal-add-picture,
+#modal-validate-add-picture {
 	font-family: 'Syne';
 	font-size: 14px;
 	font-weight: 700;
-	color: white;
-	background-color: #1D6154;
-	padding: 10px 49px;
+	padding-block: 10px;
+	width: 230px;
 	border: none;
 	border-radius: 60px;
 	cursor: pointer;
+
+	color: white;
+}
+
+#modal-add-picture {
+	background-color: #1D6154;
+}
+
+#modal-validate-add-picture {
+	background-color: #A7A7A7;
 }
 
 #modal-deleter-galerie {
@@ -581,6 +605,61 @@ footer nav {
 	cursor: pointer;
 }
 
-.modal-close {
-	z-index: 2;
+#upload-image {
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+	border-bottom: 1px solid #B3B3B3;
+	padding-bottom: 40px;
+}
+
+#upload-image input,
+#upload-image div {
+	margin-block: 16px;
+	width: 100%;
+}
+
+#upload-image svg {
+	color: #B9C5CC;
+	height: 46px;
+}
+
+.input-image-instructions {
+	font-size: 12px;
+	font-weight: 400;
+	color: #444444;
+	;
+}
+
+.drop-container {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	cursor: pointer;
+	background-color: #E8F1F7;
+	padding: 26px 124px;
+	margin-bottom: 30px;
+}
+
+#input-image {
+	display: none;
+}
+
+/* TODO : ajouter un style :hover sur tous les boutons */
+.drop-container .button {
+	font-weight: 500;
+	color: #306685;
+	background-color: #CBD6DC;
+	padding-block: 10px;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	width: 180px;
+	text-align: center;
+	border: none;
+	border-radius: 60px;
+	cursor: pointer;
+}
+
+#modal-2 {
+	display: none;
 }
