@@ -39,49 +39,47 @@ function handleLogout() {
 	window.location.reload();
 }
 
+//TODO : QUESTION : je n'arrive pas à mettre cette fonction dans un fichier à part et l'importer dans index.js
 function openModal() {
-	if (isLoggedIn()) {
-		const modal = document.querySelector(".modal");
-		const close = document.querySelectorAll(".modal-close");
-		const addPicture = document.getElementById("modal-add-picture");
-		const previous = document.querySelectorAll(".modal-back");
-		modal.style.display = "flex";
+	const modal = document.querySelector(".modal");
+	const modal1 = document.getElementById("modal-1");
+	const modal2 = document.getElementById("modal-2");
 
-		//TODO : simplifier le code en utilisant une fonction closeModal.
-		close.forEach((button) => {
-			button.addEventListener("click", () => {
-				modal.style.display = "none";
-			});
-		});
+	const previous = document.querySelectorAll(".modal-back");
+	const close = document.querySelectorAll(".modal-close");
+	const addPicture = document.getElementById("modal-add-picture");
+
+	modal.style.display = "flex";
+	modal1.dataset.active = "true";
+
+	close.forEach((button) => {
+		button.addEventListener("click", () => updateModal("close"));
 		window.addEventListener("keydown", (e) => {
 			if (e.key === "Escape") {
-				modal.style.display = "none";
+				updateModal("close");
 				window.removeEventListener("keydown", e);
 			}
 		});
-		addPicture.addEventListener("click", nextModal);
-		previous.forEach((button) => {
-			button.addEventListener("click", prevModal);
-		});
+	});
+	addPicture.addEventListener("click", () => updateModal("next"));
+	previous.forEach((button) => {
+		button.addEventListener("click", () => updateModal("previous"));
+	});
 
-		//TODO : ajouter eventlistener quand on click en dehors de la modale
+	function updateModal(param) {
+		if (param === "close") {
+			modal.style.display = "none";
+			modal1.dataset.active = "true";
+			modal2.dataset.active = "false";
+		} else if (param === "next") {
+			modal1.dataset.active = "false";
+			modal2.dataset.active = "true";
+		} else if (param === "previous") {
+			modal1.dataset.active = "true";
+			modal2.dataset.active = "false";
+		}
 	}
 }
 
-//TODO : prev/next with parameters
-function nextModal() {
-	const modal1 = document.getElementById("modal-1");
-	const modal2 = document.getElementById("modal-2");
-	//TODO : toggle une classe hidden au lieu de changer le display ?
-	modal1.style.display = "none";
-	modal2.style.display = "flex";
-}
-
-function prevModal() {
-	const modal1 = document.getElementById("modal-1");
-	const modal2 = document.getElementById("modal-2");
-	//TODO : toggle une classe hidden au lieu de changer le display ?
-	modal1.style.display = "flex";
-	modal2.style.display = "none";
-}
-
+//TODO : ajouter eventlistener quand on click en dehors de la modale
+//TODO : séparer openModal et updateModal / handleModal

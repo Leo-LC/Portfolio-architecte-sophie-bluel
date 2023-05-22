@@ -3,7 +3,6 @@ import { fetchWorks, postWorks, categories, deleteWork } from "./data.js";
 const works = await fetchWorks();
 
 // Générer les works dans la modale
-
 const modalGallery = document.querySelector(".modal-gallery");
 
 async function genererModalWorks(works) {
@@ -11,25 +10,30 @@ async function genererModalWorks(works) {
 		const figure = document.createElement("figure");
 		figure.classList.add("modal-gallery-figure");
 
-		// TODO : transformer le figcaption en bouton interactif pour event listener
+		// TODO : transformer le figcaption en bouton interactif pour event listener ?
 		const figcaption = document.createElement("figcaption");
 		figcaption.innerText = "éditer";
 
-		// TODO : transformer les i en bouton interactif pour event listener
-		const deleteIcon = document.createElement("i");
-		const test = document.createElement("button");
-		deleteIcon.classList.add("fa-solid", "fa-trash-can");
-		test.classList.add("modal-picture-delete");
-		test.appendChild(deleteIcon);
-		test.addEventListener("click", () => {
-			deleteWork(work.id);
-		});
+		function createButtonWithIcon(iconClasses, buttonClasses, clickHandler) {
+			const button = document.createElement("button");
+			const icon = document.createElement("i");
+			icon.classList.add(...iconClasses);
+			button.classList.add(...buttonClasses);
+			button.appendChild(icon);
+			button.addEventListener("click", clickHandler);
+			return button;
+		}
 
-		const moveIcon = document.createElement("i");
-		moveIcon.classList.add(
-			"modal-picture-move",
-			"fa-solid",
-			"fa-up-down-left-right"
+		const deleteIcon = createButtonWithIcon(
+			["fa-solid", "fa-trash-can"],
+			["modal-picture-delete"],
+			() => deleteWork(work.id)
+		);
+
+		const moveIcon = createButtonWithIcon(
+			["fa-solid", "fa-up-down-left-right"],
+			["modal-picture-move"],
+			() => console.log("move")
 		);
 
 		const image = document.createElement("img");
@@ -38,9 +42,11 @@ async function genererModalWorks(works) {
 
 		figure.appendChild(image);
 		figure.appendChild(figcaption);
-		figure.appendChild(test);
-		// TODO : append le moveicon seulement au survol de la figure
-		figure.appendChild(moveIcon);
+		figure.appendChild(deleteIcon);
+		// append moveIcon to figure on mouseover and remove on mouseout
+		figure.addEventListener("mouseenter", () => figure.appendChild(moveIcon));
+		figure.addEventListener("mouseleave", () => figure.removeChild(moveIcon));
+
 		modalGallery.appendChild(figure);
 	});
 }
@@ -48,28 +54,29 @@ genererModalWorks(works);
 
 /* TODO : 
 -1 - Activer le bouton si tous les champs sont remplis
-1 - récupérer les infos du formulaire et les stocker dans une variable
 2 - les envoyer à l'API
 3 - récupérer la réponse de l'API
-0 - Changer le logo dans la modale en fonction de l'image ajoutée.
 4 - ajouter la nouvelle image à la galerie -> call genererModalWorks ? 
 5 - afficher un message de succès ou d'erreur
 6 - revenir à la première modale
 */
 
-const modalData = () => {
-	const modalForm = document.getElementById("upload-image");
-	const image = document.getElementById("input-image").files;
-	const imageName = image[0].name;
-	const titre = document.getElementById("input-titre").value;
-	const categorie = document.getElementById("input-categorie").value;
+const modalForm = document.getElementById("upload-image");
+const inputImage = document.getElementById("input-image");
+const inputTitre = document.getElementById("input-titre");
+const inputCategorie = document.getElementById("input-categorie");
 
+const images = inputImage.files;
+const imageName = images[0].name;
+const titre = inputTitre.value;
+const categorie = inputCategorie.value;
+
+const modalData = () => {
 	const newWork = {
 		image: imageName,
 		titre: titre,
 		categorie: categorie,
 	};
-	console.log(imageName);
 	console.log(newWork);
 	return newWork;
 };
@@ -80,10 +87,26 @@ addPictureButton.addEventListener("click", (e) => {
 	modalData();
 });
 
-const inputCategorie = document.getElementById("input-categorie");
+// Générer les options de la liste déroulante
 categories.forEach((categorie) => {
 	inputCategorie.innerHTML += `<option value="${categorie}">${categorie}</option>`;
 });
 
+// Update le preview de l'image dans la modale
+inputImage.addEventListener("change", () => {
+	const loadedImage = inputImage.files[0];
+	const imagePreview = document.querySelector(".drop-container");
+
+	if (loadedImage) {
+		const reader = new FileReader();
+		reader.addEventListener("load", () => {
+			const preview = document.createElement("img");
+			preview.src = reader.result;
+			imagePreview.innerHTML = "";
+			imagePreview.innerHTML = `<img src="${preview.src}"> <input type="file" name="input-image" id="input-image" accept=".jpg, .jpeg, .png">`;
+		});
+		reader.readAsDataURL(loadedImage);
+	}
+});
+
 //TODO : warning sur "supprimer la galerie"
-//TODO : export le modal dans son propre fichier ? nécessite d'exporter la fonction fetch et/ou les res.json()

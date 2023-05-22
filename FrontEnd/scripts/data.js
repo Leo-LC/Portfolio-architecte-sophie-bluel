@@ -1,4 +1,5 @@
 const works = await fetchWorks();
+const token = localStorage.getItem("userToken");
 
 // Export functions to fetch data from the API
 
@@ -31,12 +32,19 @@ export async function postWorks(newWork) {
 
 export async function deleteWork(id) {
 	try {
-		// const res = await fetch(`http://localhost:5678/api/works/${id}`, {
-		// 	method: "DELETE",
-		// });
-		// const data = await res.json();
-		// console.log(data);
-		console.log(id);
+		const res = await fetch(`http://localhost:5678/api/works/${id}`, {
+			method: "DELETE",
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
+			},
+		});
+		if (res.ok) {
+			// TODO : remove the deleted work from the modal and update the gallery
+			console.log("success");
+		} else {
+			console.log("error");
+		}
 	} catch (err) {
 		console.error(err);
 	}
@@ -47,3 +55,5 @@ export const categories = new Set();
 works.forEach((work) => {
 	categories.add(work.category.name);
 });
+
+//TODO : create deleteAll() function to delete all works from the API

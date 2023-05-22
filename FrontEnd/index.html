@@ -20,7 +20,7 @@
 	<!-- TODO : propriétés d'accessibilité modal -->
 	<!-- TODO : use the new dialog element ? https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog -->
 	<aside class="modal" id="modal">
-		<div class="modal-wrapper" id="modal-1">
+		<div class="modal-wrapper" id="modal-1" data-active="false">
 			<h3 id="modal-title">Galerie photo</h3>
 			<button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
 			<div class="modal-gallery">
@@ -29,13 +29,13 @@
 			<button id="modal-delete-galerie">Supprimer la galerie</button>
 		</div>
 
-		<div class="modal-wrapper" id="modal-2">
+		<div class="modal-wrapper" id="modal-2" data-active="false">
 			<h3 id="modal-title">Ajout Photo</h3>
 			<button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
 			<button class="modal-back"><i class="fa-solid fa-arrow-left-long"></i></button>
 			<form id="upload-image" action="">
 				<label for="input-image" class="drop-container">
-					<span><i class="fa-regular fa-image"></i></span>
+					<span id="modal-image-preview"><i class="fa-regular fa-image"></i></span>
 					<span class="button">+ Ajouter Photo</span>
 					<span class="input-image-instructions">jpg, png : 4mo max</span>
 					<input type="file" name="input-image" id="input-image" accept=".jpg, .jpeg, .png">
@@ -43,11 +43,10 @@
 				<label for="input-titre">Titre</label>
 				<input name="input-titre" id="input-titre" type="text">
 				<label for="input-categorie">Catégorie</label>
-				<select name="input-categorie" id="input-categorie" type="text" list="test">
-
-				</select>
+				<select name="input-categorie" id="input-categorie" type="text"></select>
+				<span class="grey-line"></span>
+				<input type="submit" id="modal-validate-add-picture" value="Valider" data-active="false"></input>
 			</form>
-			<button id="modal-validate-add-picture">Valider</button>
 
 		</div>
 	</aside>
