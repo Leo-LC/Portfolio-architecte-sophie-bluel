@@ -302,12 +302,15 @@ li:hover {
 
 #contact input,
 #login input,
-#upload-image input:not([type="file"]) {
+#upload-image input:not([type="file"]),
+#input-categorie {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 	padding-left: 1rem;
+	width: 100%;
+	background-color: white;
 }
 
 #contact label,
@@ -505,8 +508,8 @@ footer nav {
 	font-size: 26px;
 }
 
-#modal-close,
-#modal-back {
+.modal-close,
+.modal-back {
 	position: absolute;
 	top: 32px;
 	border: none;
@@ -514,11 +517,11 @@ footer nav {
 	font-size: 20px;
 }
 
-#modal-close {
+.modal-close {
 	right: 32px;
 }
 
-#modal-back {
+.modal-back {
 	left: 32px;
 }
 
@@ -557,11 +560,15 @@ footer nav {
 	font-size: 9px;
 	border-radius: 2px;
 	padding: 4px;
+	border: none;
 }
 
 .modal-picture-delete {
 	top: 6px;
 	right: 6px;
+	height: 17px;
+	display: grid;
+	place-content: center;
 }
 
 .modal-picture-move {
@@ -591,7 +598,7 @@ footer nav {
 	background-color: #A7A7A7;
 }
 
-#modal-deleter-galerie {
+#modal-delete-galerie {
 	font-family: 'Syne';
 	font-size: 14px;
 	font-weight: 400;
@@ -599,6 +606,8 @@ footer nav {
 	border: none;
 	background: none;
 }
+
+
 
 .modal button,
 .edit {
@@ -614,10 +623,12 @@ footer nav {
 }
 
 #upload-image input,
-#upload-image div {
+#upload-image div,
+#input-categorie {
 	margin-block: 16px;
-	width: 100%;
 }
+
+/* TODO : styling the dropdown menu  */
 
 #upload-image svg {
 	color: #B9C5CC;
@@ -659,6 +670,11 @@ footer nav {
 	border-radius: 60px;
 	cursor: pointer;
 }
+
+
+/* #modal-1 {
+	display: none;
+} */
 
 #modal-2 {
 	display: none;

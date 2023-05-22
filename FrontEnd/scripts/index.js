@@ -1,5 +1,3 @@
-console.log(nextModal);
-
 //update the navbar when the DOM is loaded
 document.addEventListener("DOMContentLoaded", updateLayout);
 
@@ -44,14 +42,16 @@ function handleLogout() {
 function openModal() {
 	if (isLoggedIn()) {
 		const modal = document.querySelector(".modal");
-		const close = document.getElementById("modal-close");
+		const close = document.querySelectorAll(".modal-close");
 		const addPicture = document.getElementById("modal-add-picture");
-		const previous = document.getElementById("modal-back");
+		const previous = document.querySelectorAll(".modal-back");
 		modal.style.display = "flex";
 
 		//TODO : simplifier le code en utilisant une fonction closeModal.
-		close.addEventListener("click", () => {
-			modal.style.display = "none";
+		close.forEach((button) => {
+			button.addEventListener("click", () => {
+				modal.style.display = "none";
+			});
 		});
 		window.addEventListener("keydown", (e) => {
 			if (e.key === "Escape") {
@@ -60,7 +60,10 @@ function openModal() {
 			}
 		});
 		addPicture.addEventListener("click", nextModal);
-		previous.addEventListener("click", prevModal);
+		previous.forEach((button) => {
+			button.addEventListener("click", prevModal);
+		});
+
 		//TODO : ajouter eventlistener quand on click en dehors de la modale
 	}
 }
@@ -81,3 +84,4 @@ function prevModal() {
 	modal1.style.display = "flex";
 	modal2.style.display = "none";
 }
+
