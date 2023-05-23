@@ -1,15 +1,12 @@
 **_ NOTES _**
 
-### PROBLEMES RENCONTRES ET QUESTIONS ###
+### PROBLEMES RENCONTRES ET QUESTIONS
 
-- Pour ajouter un users dans la db, j'ai du ouvrir la route "signup" et tweaker le code une fois pour créer "admin@admin.fr" et "1234"
-Mais je n'ai pas attribué ou stocké de token.
+TODO : QUESTIONS
 
-- Bannière de modifications : l'icone / le texte doivent-ils être considérés comme des boutons ? 
+- Impossible de TAB/ENTER sur les liens (navbar, modifier...)
 
-
-
-
+- Bannière de modifications : l'icone / le texte doivent-ils être considérés comme des boutons ?
 
 ### A garder dans un coin pour comprendre le fonctionnement si besoin
 

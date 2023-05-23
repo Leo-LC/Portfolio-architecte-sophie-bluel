@@ -52,6 +52,8 @@ export async function deleteWork(id) {
 
 export const categories = new Set();
 
+// TODO : récupérer également la catégorie / id
+// TODO : déplacer pour réduire un appel à l'API
 works.forEach((work) => {
 	categories.add(work.category.name);
 });

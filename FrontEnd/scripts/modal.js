@@ -10,7 +10,6 @@ async function genererModalWorks(works) {
 		const figure = document.createElement("figure");
 		figure.classList.add("modal-gallery-figure");
 
-		// TODO : transformer le figcaption en bouton interactif pour event listener ?
 		const figcaption = document.createElement("figcaption");
 		figcaption.innerText = "éditer";
 
@@ -89,6 +88,7 @@ addPictureButton.addEventListener("click", (e) => {
 
 // Générer les options de la liste déroulante
 categories.forEach((categorie) => {
+	// TODO : value : categorie.id de la catégorie
 	inputCategorie.innerHTML += `<option value="${categorie}">${categorie}</option>`;
 });
 
@@ -110,3 +110,6 @@ inputImage.addEventListener("change", () => {
 });
 
 //TODO : warning sur "supprimer la galerie"
+//TODO : drag n drop
+
+// TODO : formdata => name similaire à l'API

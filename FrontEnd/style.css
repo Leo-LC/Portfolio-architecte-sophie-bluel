@@ -146,12 +146,6 @@ table {
 }
 
 /** end reset css**/
-body {
-	max-width: 1140px;
-	margin: auto;
-	font-family: 'Work Sans';
-	font-size: 14px;
-}
 
 header {
 	display: flex;
@@ -160,7 +154,7 @@ header {
 }
 
 section {
-	margin: 50px 0
+	margin: 100px 0
 }
 
 h1 {
@@ -212,14 +206,23 @@ li:hover {
 	flex: 1
 }
 
-#introduction img {
+#introduction img,
+#introduction span {
 	display: block;
-	margin: auto;
-	width: 80%;
+	width: 100%;
+}
+
+#introduction span {
+	top: 20px;
+	position: relative;
 }
 
 #introduction article {
-	flex: 1
+	flex: 1;
+	padding-inline: 2rem;
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
 }
 
 #introduction h2 {
@@ -247,7 +250,6 @@ li:hover {
 }
 
 /* Edition-tab */
-/* TODO : width bloquée par le relative au body => utiliser un wrapper ?  */
 .edition-tab {
 	display: flex;
 	background-color: black;
@@ -261,7 +263,6 @@ li:hover {
 	right: 0;
 	top: 0;
 	margin-bottom: -1rem;
-
 }
 
 .edition-tab button {
@@ -277,10 +278,10 @@ li:hover {
 #login {
 	width: 50%;
 	margin: auto;
+	text-align: center;
 }
 
 #contact>*,
-#login>*,
 #upload-image>* {
 	text-align: center;
 	align-items: center;
@@ -301,15 +302,24 @@ li:hover {
 	flex-direction: column;
 }
 
-#contact input,
-#login input,
-#upload-image input:not([type="file"]),
+#contact form>*:not([type="submit"]) {
+	width: 100%;
+}
+
+#contact input:not(.button),
+#login input:not(.button),
+#upload-image input:not(.button),
 #input-categorie {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 	padding-left: 1rem;
+}
+
+#login-submit {
+	margin-inline: auto;
+	margin-block: 2rem;
 }
 
 #upload-image :is(input, select):not([type="submit"]) {
@@ -322,22 +332,19 @@ li:hover {
 	margin: 2em 0 1em 0;
 }
 
-#contact textarea #login textarea {
+#login a:hover,
+#modal-delete-galerie:hover {
+	text-decoration-line: underline;
+}
+
+#contact textarea,
+#login textarea {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"] {
-	font-family: 'Syne';
-	font-weight: 700;
-	color: white;
-	background-color: #1D6154;
-	margin: 2em auto;
-	width: 180px;
-	text-align: center;
-	border: none;
-	border-radius: 60px;
-	cursor: pointer;
+#contact textarea {
+	margin-bottom: 2rem;
 }
 
 footer nav ul {
@@ -374,7 +381,9 @@ footer nav ul {
 
 /* Body */
 body {
-	background-color: var(--color-background)
+	background-color: var(--color-background);
+	font-family: 'Work Sans';
+	font-size: 14px;
 }
 
 
@@ -385,23 +394,16 @@ a {
 	cursor: pointer;
 }
 
-
-
-/* Fixer la page à 100vh et stack le footer en bas de page */
-/* TODO : regarder le comportement en reponsive */
 .body-login {
 	display: grid;
 	grid-template-rows: auto 1fr auto;
 	min-height: 100vh;
 }
 
-/* Centrer le main sur la page */
 .body-login main {
-	display: grid;
-}
-
-body>*:not(.edition-tab) {
-	max-width: 1200px;
+	display: flex;
+	flex-direction: column;
+	place-content: center;
 }
 
 /* Header / Footer */
@@ -418,12 +420,6 @@ footer nav {
 .visually-hidden {
 	opacity: 0;
 	pointer-events: none;
-}
-
-/* TODO : gérer la position des items */
-.modifier-profile,
-.modifier-titre {
-	position: absolute;
 }
 
 /* TODO : gérer la max-width de "main" sur index.html pour coller au design*/
@@ -582,29 +578,6 @@ footer nav {
 	right: calc(6px + 17px + 3px);
 }
 
-#modal-add-picture,
-#modal-validate-add-picture {
-	font-family: 'Syne';
-	font-size: 14px;
-	font-weight: 700;
-	padding-block: 10px;
-	width: 230px;
-	border: none;
-	border-radius: 60px;
-	cursor: pointer;
-
-
-	color: white;
-}
-
-#modal-add-picture {
-	background-color: #1D6154;
-}
-
-#modal-validate-add-picture {
-	background-color: #A7A7A7;
-}
-
 #modal-delete-galerie {
 	font-family: 'Syne';
 	font-size: 14px;
@@ -614,18 +587,14 @@ footer nav {
 	background: none;
 }
 
-
-
-.modal button,
-.edit {
-	cursor: pointer;
-}
-
 #upload-image {
 	display: flex;
 	flex-direction: column;
 	align-items: start;
+}
 
+#upload-image .button {
+	margin-inline: auto;
 }
 
 #upload-image input,
@@ -633,8 +602,6 @@ footer nav {
 #input-categorie {
 	margin-block: 16px;
 }
-
-/* TODO : styling the dropdown menu  */
 
 #upload-image svg {
 	color: #B9C5CC;
@@ -691,15 +658,79 @@ footer nav {
 	display: flex;
 }
 
-
-/* TODO : cibler les boutons/submit pour cet attribut + hover et retirer les styles individuels. */
-#modal-validate-add-picture[data-active="true"] {
-	color: white;
-	background-color: #1D6154;
-}
-
 .grey-line {
 	width: 100%;
 	border-bottom: 1px solid #B3B3B3;
 	margin-block: 40px;
+}
+
+.wrapper {
+	max-width: 1140px;
+	margin: auto;
+}
+
+#portfolio span {
+	position: absolute;
+	right: -100px;
+}
+
+.utility-wrapper {
+	position: relative;
+	display: flex;
+	width: fit-content;
+	margin-inline: auto;
+	align-items: center;
+	justify-content: center;
+}
+
+.index-main {
+	width: 75%;
+	margin-inline: auto;
+}
+
+/* BUTTONS */
+
+button,
+.edit,
+[class^="button-"] {
+	cursor: pointer;
+}
+
+.button-green:hover,
+.button-green:focus,
+.button-green:active {
+	background-color: #248271
+}
+
+.button-white:hover,
+.button-white:focus {
+	background-color: rgb(231, 231, 231);
+}
+
+.button {
+	font-family: 'Syne';
+	font-size: 14px;
+	font-weight: 700;
+	padding-block: 10px;
+	width: 230px;
+	border: none;
+	border-radius: 60px;
+	cursor: pointer;
+	text-align: center;
+}
+
+.button-green {
+	color: white;
+	background-color: #1D6154;
+}
+
+.button-grey {
+	background-color: #A7A7A7;
+	color: white;
+}
+
+/* TODO : cibler les boutons/submit pour cet attribut + hover et retirer les styles individuels. */
+.button-grey[data-active="true"] {
+	color: white;
+	background-color: #1D6154;
 }

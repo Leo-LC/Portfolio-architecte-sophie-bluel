@@ -24,16 +24,13 @@
             <ul>
                 <li><a href="./index.html">projets</a></li>
                 <li>contact</li>
-                <!-- TODO : dynamic login / logout with js if isLoggedIn() -->
-                <li><a href="./login.html">login</a></li>
+                <li><a href="./login.html" style="font-weight: 700;">login</a></li>
                 <li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
             </ul>
         </nav>
-        <!-- TODO : dynamic modify-open modal JS if isLoggedIn() -->
     </header>
 
     <main>
-        <!-- TODO : définir action et method -->
         <section id="login">
             <h2>Log In</h2>
             <form novalidate>
@@ -42,12 +39,11 @@
                 <label for="password">Password</label>
                 <input type="password" name="password" id="password" required>
                 <p class="error-text visually-hidden">Adresse mail ou mot de passe incorrect</p>
-                <input type="submit" value="Se connecter" id="submit">
+                <input type="submit" value="Se connecter" id="login-submit" class="button button-green">
             </form>
             <p><a href="">Mot de passe oublié</a></p>
         </section>
 
-        <!-- TODO : formulaire de signup de user ? -->
     </main>
 
     <footer>

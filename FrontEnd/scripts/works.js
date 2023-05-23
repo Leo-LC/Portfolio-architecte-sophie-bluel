@@ -1,14 +1,11 @@
 import { fetchWorks } from "./data.js";
 
 //TODO : function "performeget" en passant une URL en paramètre avec une const de l'URL de l'API
-//TODO : Penser à l'élément nav en gras quand on est sur la page correspondante
 
 // Récupération des données de l'API
 const works = await fetchWorks();
 
-// TODO : Fonction pour générer la galerie (=> renommer genererGalerie)
 async function genererGalerie(works) {
-	// TODO : appeler la fonction fetch et stock en const)
 
 	// TODO : cours sur for of -> (for work of works)
 	const worksId = works.map((work) => work.id);
@@ -37,7 +34,6 @@ genererGalerie(works);
 // On appelle la fonction pour générer les boutons de filtres
 ajouterBoutonsFiltrer();
 
-//TODO : placer les fonctions liées aux filtres dans un fichier à part (comprendre comment passer les variables entre les fichiers)
 async function ajouterBoutonsFiltrer() {
 	//TODO : créer un set (pour éviter les doublons) => récupérer les categories de l'API works
 	const response = await fetch("http://localhost:5678/api/categories");
@@ -85,8 +81,4 @@ function ajouterEventListener(filtreElement, categorie) {
 		}
 	});
 }
-
-//TODO : renseignements sur webpackage
-
-//TODO : Next week : formulaire de connexion => gestion des erreurs (mauvais email/password...user non existing...)
 

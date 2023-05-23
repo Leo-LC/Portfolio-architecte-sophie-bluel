@@ -1,4 +1,4 @@
-//update the navbar when the DOM is loaded
+//update the layout when the DOM is loaded
 document.addEventListener("DOMContentLoaded", updateLayout);
 
 // check if a token is in the local storage and returns true if it is
@@ -14,6 +14,7 @@ function updateLayout() {
 	const boutonsModifier = document.querySelectorAll(".modifier");
 	// if the user is logged in, show the logout button that will refresh the page and remove the token from the local storage
 	if (isLoggedIn()) {
+		// TODO : créer les éléments en HTML / "visually hidden" => switch affichage si loggedIn
 		login.innerHTML = `<a>logout</a>`;
 		editionTab.style.display = "flex";
 		boutonsModifier.forEach((bouton) => {
@@ -38,8 +39,6 @@ function handleLogout() {
 	localStorage.removeItem("userToken");
 	window.location.reload();
 }
-
-//TODO : QUESTION : je n'arrive pas à mettre cette fonction dans un fichier à part et l'importer dans index.js
 function openModal() {
 	const modal = document.querySelector(".modal");
 	const modal1 = document.getElementById("modal-1");
@@ -83,3 +82,9 @@ function openModal() {
 
 //TODO : ajouter eventlistener quand on click en dehors de la modale
 //TODO : séparer openModal et updateModal / handleModal
+//TODO : nombre d'appels à l'API à réduire
+
+const contactForm = document.getElementById("contact-form-validate");
+contactForm.addEventListener("click", (e) => {
+	e.preventDefault();
+});

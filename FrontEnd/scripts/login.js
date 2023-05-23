@@ -15,6 +15,7 @@ function validateEmail() {
 	const validEmail = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/i;
 
 	!validEmail.test(email.value)
+	//TODO : change c.log to error message
 		? console.log("invalid email")
 		: console.log("valid email");
 }
@@ -55,3 +56,5 @@ async function loginUser() {
 		console.error("Error:", error);
 	}
 }
+
+//TODO : user non enregistré message personnalisé en fonction faute de frappe ou retour backend
