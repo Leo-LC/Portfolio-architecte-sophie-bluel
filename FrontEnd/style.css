@@ -233,6 +233,32 @@ li:hover {
 	margin-bottom: 0.5em;
 }
 
+/* Portfolio */
+
+.global-wrapper {
+	max-width: 1140px;
+	margin: auto;
+}
+
+#portfolio span {
+	position: absolute;
+	right: -100px;
+}
+
+.utility-wrapper {
+	position: relative;
+	display: flex;
+	width: fit-content;
+	margin-inline: auto;
+	align-items: center;
+	justify-content: center;
+}
+
+.index-main {
+	width: 75%;
+	margin-inline: auto;
+}
+
 #portfolio h2 {
 	text-align: center;
 }
@@ -273,7 +299,7 @@ li:hover {
 	border-radius: 100px;
 }
 
-/* Réutilisation des classes du contact form pour le login form */
+/* Forms Login / Contact / Modal */
 #contact,
 #login {
 	width: 50%;
@@ -347,13 +373,7 @@ li:hover {
 	margin-bottom: 2rem;
 }
 
-footer nav ul {
-	display: flex;
-	justify-content: flex-end;
-	margin: 2em
-}
-
-/* Boutons Filtrer */
+/* Boutons de filtre */
 
 .filtres {
 	display: flex;
@@ -381,15 +401,28 @@ footer nav ul {
 	color: white;
 }
 
-/* Body */
+/* Body Header Footer et Navbar */
 body {
 	background-color: var(--color-background);
 	font-family: 'Work Sans';
 	font-size: 14px;
 }
 
+header,
+footer {
+	padding-inline: 2rem;
+}
 
-/* Navbar et links */
+footer nav {
+	background-color: white !important;
+}
+
+footer nav ul {
+	display: flex;
+	justify-content: flex-end;
+	margin: 2em
+}
+
 a {
 	text-decoration: none;
 	color: inherit;
@@ -408,20 +441,15 @@ a {
 	place-content: center;
 }
 
-/* Header / Footer */
-
-header,
-footer {
-	padding-inline: 2rem;
-}
-
-footer nav {
-	background-color: white !important;
-}
+/* Utility classes*/
 
 .visually-hidden {
 	opacity: 0;
 	pointer-events: none;
+}
+
+.display-none {
+	display: none;
 }
 
 /* Error Input styling */
@@ -437,11 +465,6 @@ footer nav {
 .shake #password {
 	border: 2px solid rgba(255, 0, 0, 0.5);
 	animation: shake .5s ease;
-}
-
-#email.invalid-input:focus,
-#password.invalid-input:focus {
-	outline-offset: 1px;
 }
 
 @keyframes shake {
@@ -470,11 +493,7 @@ footer nav {
 	}
 }
 
-/*TODO : ajouter un style :hover sur les boutons */
-/*TODO : tester le changements de style du bouton en fonction de la validité email / mdp pour se challenger */
-/*TODO : réorganiser le css */
-
-/* Modal styling */
+/* Modal */
 
 .modal {
 	position: fixed;
@@ -483,7 +502,6 @@ footer nav {
 	background-color: rgba(0, 0, 0, 0.5);
 	justify-content: center;
 	align-items: center;
-
 	display: none;
 }
 
@@ -523,9 +541,6 @@ footer nav {
 .modal-back {
 	left: 32px;
 }
-
-
-
 
 .modal-gallery {
 	border-bottom: 1px solid #B3B3B3;
@@ -569,7 +584,6 @@ footer nav {
 .modal-picture-delete {
 	top: 6px;
 	right: 6px;
-
 }
 
 .modal-picture-move {
@@ -607,6 +621,10 @@ footer nav {
 	height: 46px;
 }
 
+#input-image {
+	display: none;
+}
+
 .input-image-instructions {
 	font-size: 12px;
 	font-weight: 400;
@@ -623,11 +641,6 @@ footer nav {
 	margin-bottom: 30px;
 }
 
-#input-image {
-	display: none;
-}
-
-/* TODO : ajouter un style :hover sur tous les boutons */
 .drop-container .button {
 	font-weight: 500;
 	color: #306685;
@@ -646,9 +659,8 @@ footer nav {
 	width: 100%;
 }
 
-
-#modal-1,
-#modal-2 {
+#modal-1[data-active="false"],
+#modal-2[data-active="false"] {
 	display: none;
 }
 
@@ -663,31 +675,8 @@ footer nav {
 	margin-block: 40px;
 }
 
-.wrapper {
-	max-width: 1140px;
-	margin: auto;
-}
-
-#portfolio span {
-	position: absolute;
-	right: -100px;
-}
-
-.utility-wrapper {
-	position: relative;
-	display: flex;
-	width: fit-content;
-	margin-inline: auto;
-	align-items: center;
-	justify-content: center;
-}
-
-.index-main {
-	width: 75%;
-	margin-inline: auto;
-}
-
-/* BUTTONS */
+/* Boutons */
+/*TODO : tester le changements de style du bouton en fonction de la validité email / mdp pour se challenger */
 
 button,
 .edit,
@@ -731,8 +720,4 @@ button,
 .button-grey[data-active="true"] {
 	color: white;
 	background-color: #1D6154;
-}
-
-.display-none {
-	display: none;
 }
