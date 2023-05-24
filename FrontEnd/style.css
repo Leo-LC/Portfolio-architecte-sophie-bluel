@@ -333,7 +333,7 @@ li:hover {
 }
 
 #login a:hover,
-#modal-delete-galerie:hover {
+#modal-delete-galerie {
 	text-decoration-line: underline;
 }
 
@@ -372,6 +372,8 @@ footer nav ul {
 	border-radius: 1.5rem;
 	cursor: pointer;
 	min-width: 100px;
+	font-family: 'Syne';
+	text-align: center;
 }
 
 .filtre[data-actif="true"] {
@@ -728,9 +730,11 @@ button,
 	background-color: #A7A7A7;
 	color: white;
 }
-
-/* TODO : cibler les boutons/submit pour cet attribut + hover et retirer les styles individuels. */
 .button-grey[data-active="true"] {
 	color: white;
 	background-color: #1D6154;
+}
+
+.display-none {
+	display: none;
 }

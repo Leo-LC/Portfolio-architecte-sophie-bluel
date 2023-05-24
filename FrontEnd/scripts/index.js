@@ -8,26 +8,25 @@ export function isLoggedIn() {
 
 // update the navbar depending on if the user is logged in or not
 function updateLayout() {
-	const login = document.getElementById("login-logout");
+	const login = document.getElementById("log-in");
+	const logout = document.getElementById("log-out");
 	const editionTab = document.querySelector(".edition-tab");
 	const edit = document.querySelectorAll(".edit");
-	const boutonsModifier = document.querySelectorAll(".modifier");
 	// if the user is logged in, show the logout button that will refresh the page and remove the token from the local storage
 	if (isLoggedIn()) {
-		// TODO : créer les éléments en HTML / "visually hidden" => switch affichage si loggedIn
-		login.innerHTML = `<a>logout</a>`;
+		login.classList.add("display-none");
+		logout.classList.remove("display-none");
 		editionTab.style.display = "flex";
-		boutonsModifier.forEach((bouton) => {
-			bouton.classList.remove("visually-hidden");
-		});
 
 		edit.forEach((bouton) => {
 			bouton.addEventListener("click", openModal);
+			bouton.classList.remove("visually-hidden");
 		});
 
-		login.onclick = handleLogout;
+		logout.onclick = handleLogout;
 	} else {
-		login.innerHTML = `<a href="./login.html">login</a>`;
+		login.classList.remove("display-none");
+		logout.classList.add("display-none");
 		editionTab.style.display = "none";
 		login.onclick = function () {
 			window.location.href = "/login.html";
@@ -39,6 +38,8 @@ function handleLogout() {
 	localStorage.removeItem("userToken");
 	window.location.reload();
 }
+
+// TODO : QUESTION : j'essaye de mettre la fonction dans modal.js et de l'importer ici mais ça ne marche pas, pourquoi ?
 function openModal() {
 	const modal = document.querySelector(".modal");
 	const modal1 = document.getElementById("modal-1");
@@ -60,6 +61,8 @@ function openModal() {
 			}
 		});
 	});
+
+	// Navigate between the two modals
 	addPicture.addEventListener("click", () => updateModal("next"));
 	previous.forEach((button) => {
 		button.addEventListener("click", () => updateModal("previous"));
@@ -81,10 +84,11 @@ function openModal() {
 }
 
 //TODO : ajouter eventlistener quand on click en dehors de la modale
-//TODO : séparer openModal et updateModal / handleModal
-//TODO : nombre d'appels à l'API à réduire
 
 const contactForm = document.getElementById("contact-form-validate");
 contactForm.addEventListener("click", (e) => {
 	e.preventDefault();
 });
+
+//TODO : EXTRA : function pour modifier la photo de profil
+//TODO : EXTRA : function pour modifier le titre "mes projets"

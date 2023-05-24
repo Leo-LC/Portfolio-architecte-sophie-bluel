@@ -17,9 +17,8 @@
 
 <body>
 
-	<!-- TODO : propriétés d'accessibilité modal -->
-	<!-- TODO : use the new dialog element ? https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog -->
-	<aside class="modal" id="modal">
+	<!-- TODO : modal accessibility and aria and focus limited to modal -->
+	<aside class="modal" id="modal" aria-modal="true">
 
 		<div class="modal-wrapper" id="modal-1" data-active="false">
 			<h3 id="modal-title">Galerie photo</h3>
@@ -67,7 +66,11 @@
 				<ul>
 					<li><a href="./index.html" style="font-weight: 700;">projets</a></li>
 					<li><a href="mailto:sophie.bluel@test.tld">contact</a></li>
-					<li id="login-logout"></li>
+					<li>
+						<a id="log-in" href="./login.html" class="">login</a>
+						<a id="log-out" class="display-none">logout</a>
+
+					</li>
 					<li><a href="#"><img src="./assets/icons/instagram.png" alt="Instagram"></a></li>
 				</ul>
 			</nav>
@@ -76,7 +79,7 @@
 			<section id="introduction">
 				<figure>
 					<img src="./assets/images/sophie-bluel.png" alt="">
-					<span><i class="fa-regular fa-pen-to-square"></i> modifier</span>
+					<span class="edit visually-hidden"><i class="fa-regular fa-pen-to-square"></i> modifier</span>
 				</figure>
 				<article>
 					<h2>Designer d'espace</h2>
@@ -89,7 +92,7 @@
 					<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG,
 						décorateur(trice)</p>
 				</article>
-				<div class="edit modifier modifier-profile visually-hidden">
+				<div class="edit modifier-profile visually-hidden">
 
 
 				</div>
@@ -97,8 +100,7 @@
 			<section id="portfolio">
 				<div class="utility-wrapper">
 					<h2>Mes Projets</h2>
-					<span class="edit modifier modifier-titre visually-hidden"><i
-							class="fa-regular fa-pen-to-square"></i>
+					<span class="edit modifier-titre visually-hidden"><i class="fa-regular fa-pen-to-square"></i>
 						modifier</span>
 				</div>
 
@@ -130,10 +132,10 @@
 		</footer>
 	</div>
 
+	<script src="./scripts/fetch.js" type="module"></script>
+	<script src="./scripts/modal.js" type="module"></script>
 	<script src="./scripts/index.js" type="module"></script>
 	<script src="./scripts/works.js" type="module"></script>
-	<script src="./scripts/modal.js" type="module"></script>
-	<script src="./scripts/data.js" type="module"></script>
 </body>
 
 
