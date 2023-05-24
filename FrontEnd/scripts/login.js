@@ -1,28 +1,24 @@
-const loginForm = document.getElementById("login");
+const loginForm = document.querySelector(".login");
 const email = document.getElementById("email");
 const password = document.getElementById("password");
 const errorText = document.querySelector(".error-text");
 
 loginForm.addEventListener("submit", async (e) => {
 	e.preventDefault();
-	validateEmail();
-	validatePassword();
-	loginUser();
+	errorText.innerHTML = "";
+	errorText.classList.remove("visually-hidden");
+	const regex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/i;
+	const validEmail = regex.test(email.value) && email.value !== "";
+	const validPassword = password.value !== "";
+
+	if (validEmail && validPassword) {
+		await loginUser();
+	} else if (!validEmail) {
+		errorText.innerHTML = "Veuillez entrer une adresse email valide";
+	} else if (!validPassword) {
+		errorText.innerHTML = "Veuillez entrer un mot de passe";
+	}
 });
-
-//TODO : add a custom message / styling in case of error
-function validateEmail() {
-	const validEmail = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/i;
-
-	!validEmail.test(email.value)
-	//TODO : change c.log to error message
-		? console.log("invalid email")
-		: console.log("valid email");
-}
-
-function validatePassword() {
-	!password.value ? console.log("Password cannot be empty") : null;
-}
 
 async function loginUser() {
 	let user = {
@@ -45,16 +41,20 @@ async function loginUser() {
 		if (response.ok) {
 			localStorage.setItem("userToken", data.token);
 			window.location.href = "./index.html";
-		} else {
-			email.classList.remove("invalid-input");
-			password.classList.remove("invalid-input");
-			email.classList.add("invalid-input");
-			password.classList.add("invalid-input");
-			errorText.classList.remove("visually-hidden");
+		} else if (response.status === 404) {
+			errorText.innerHTML = "Utilisateur non enregistré";
+			shake();
 		}
 	} catch (error) {
 		console.error("Error:", error);
 	}
+}
+
+function shake() {
+	loginForm.classList.add("shake");
+	setTimeout(() => {
+		loginForm.classList.remove("shake");
+	}, 500);
 }
 
 //TODO : user non enregistré message personnalisé en fonction faute de frappe ou retour backend

@@ -307,7 +307,7 @@ li:hover {
 }
 
 #contact input:not(.button),
-#login input:not(.button),
+.login input:not(.button),
 #upload-image input:not(.button),
 #input-categorie {
 	height: 50px;
@@ -424,10 +424,7 @@ footer nav {
 	pointer-events: none;
 }
 
-/* TODO : gérer la max-width de "main" sur index.html pour coller au design*/
-
 /* Error Input styling */
-
 .error-text {
 	text-align: center;
 	color: red;
@@ -436,8 +433,8 @@ footer nav {
 	top: 1rem;
 }
 
-#email.invalid-input,
-#password.invalid-input {
+.shake #email,
+.shake #password {
 	border: 2px solid rgba(255, 0, 0, 0.5);
 	animation: shake .5s ease;
 }
@@ -730,6 +727,7 @@ button,
 	background-color: #A7A7A7;
 	color: white;
 }
+
 .button-grey[data-active="true"] {
 	color: white;
 	background-color: #1D6154;
