@@ -2,6 +2,7 @@ import { works, token, categories } from "./fetch.js";
 
 // Générer les works dans la modale
 const modalGallery = document.querySelector(".modal-gallery");
+const inputCategorie = document.getElementById("input-categorie");
 
 /* TODO QUESTION : impossible d'exporter depuis modal.js (GET
 http://127.0.0.1:5500/FrontEnd/scripts/modal
@@ -25,7 +26,7 @@ async function genererModalWorks(works) {
 		const deleteIcon = createButtonWithIcon(
 			["fa-solid", "fa-trash-can"],
 			["modal-picture-delete"],
-			() => deleteWork(work.id)
+			() => deleteWork(work.id, false)
 		);
 
 		const moveIcon = createButtonWithIcon(
@@ -43,6 +44,12 @@ async function genererModalWorks(works) {
 
 		modalGallery.appendChild(figure);
 	});
+
+	// Générer les options de la liste déroulante
+	categories.forEach((categorie) => {
+		// TODO : value : categorie.id de la catégorie
+		inputCategorie.innerHTML += `<option value="${categorie}">${categorie}</option>`;
+	});
 }
 // Function to create icons
 function createButtonWithIcon(iconClasses, buttonClasses, clickHandler) {
@@ -58,29 +65,6 @@ function createButtonWithIcon(iconClasses, buttonClasses, clickHandler) {
 //TODO QUESTION following : comment l'appeler uniquement au moment d'open la modale ? Est-ce nécessaire en terme d'optimisation ?
 genererModalWorks(works);
 
-async function deleteWork(id) {
-	try {
-		const res = await fetch(`http://localhost:5678/api/works/${id}`, {
-			method: "DELETE",
-			headers: {
-				Authorization: `Bearer ${token}`,
-				"Content-Type": "application/json",
-			},
-		});
-		if (res.ok) {
-			const confirmation = confirm(
-				"Voulez-vous vraiment supprimer cette image ?"
-			);
-			if (confirmation) {
-				const deletedWork = document.querySelector(`[data-id="${id}"]`);
-				deletedWork.parentElement.remove();
-			}
-		}
-	} catch (err) {
-		console.error(err);
-	}
-}
-
 // Delete all works from the API and the DOM
 const deleteAllButton = document.getElementById("modal-delete-galerie");
 deleteAllButton.addEventListener("click", confirmDeleteAll);
@@ -95,8 +79,37 @@ function confirmDeleteAll() {
 }
 async function deleteAllWorks(works) {
 	// If the user confirms, proceed with deletion
-	works.forEach((work) => deleteWork(work.id));
+	works.forEach((work) => deleteWork(work.id, true));
+	alert("Votre galerie a bien été supprimée");
 	console.log("All done");
+}
+// Delete one work from the API and the DOM
+async function deleteWork(id, deleteAllWorksCalled) {
+	try {
+		const res = await fetch(`http://localhost:5678/api/works/${id}`, {
+			method: "DELETE",
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
+			},
+		});
+		if (res.ok) {
+			if (!deleteAllWorksCalled) {
+				const confirmation = confirm(
+					"Voulez-vous vraiment supprimer cette image ?"
+				);
+				if (confirmation) {
+					const deletedWork = document.querySelector(`[data-id="${id}"]`);
+					deletedWork.parentElement.remove();
+				}
+			} else {
+				const deletedWork = document.querySelector(`[data-id="${id}"]`);
+				deletedWork ? deletedWork.parentElement.remove() : null;
+			}
+		}
+	} catch (err) {
+		console.error(err);
+	}
 }
 
 /* TODO : 
@@ -113,8 +126,6 @@ async function deleteAllWorks(works) {
 const modalForm = document.getElementById("upload-image");
 const inputImage = document.getElementById("input-image");
 const inputTitre = document.getElementById("input-titre");
-const inputCategorie = document.getElementById("input-categorie");
-
 const images = inputImage.files;
 const imageName = images[0].name;
 const titre = inputTitre.value;
@@ -137,12 +148,6 @@ addPictureButton.addEventListener("click", (e) => {
 	modalData();
 });
 
-// Générer les options de la liste déroulante
-categories.forEach((categorie) => {
-	// TODO : value : categorie.id de la catégorie
-	inputCategorie.innerHTML += `<option value="${categorie}">${categorie}</option>`;
-});
-
 // TODO : Update le preview de l'image dans la modale
 inputImage.addEventListener("change", () => {
 	const loadedImage = inputImage.files[0];
@@ -160,7 +165,3 @@ inputImage.addEventListener("change", () => {
 	}
 });
 
-//TODO : warning sur "supprimer la galerie"
-//TODO : drag n drop
-
-// TODO : formdata => name similaire à l'API

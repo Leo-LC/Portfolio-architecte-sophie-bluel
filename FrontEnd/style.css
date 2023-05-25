@@ -351,6 +351,7 @@ li:hover {
 #upload-image :is(input, select):not([type="submit"]) {
 	width: 100%;
 	background-color: white;
+	text-align: left;
 }
 
 #contact label,
@@ -520,7 +521,7 @@ a {
 	gap: 36px;
 }
 
-#modal-title {
+.modal-title {
 	font-weight: 400;
 	font-size: 26px;
 }
@@ -622,7 +623,12 @@ a {
 }
 
 #input-image {
-	display: none;
+	opacity: 0;
+	position: absolute;
+	height: 0;
+	width: 0;
+	pointer-events: none;
+
 }
 
 .input-image-instructions {
@@ -639,6 +645,19 @@ a {
 	background-color: #E8F1F7;
 	padding: 26px 124px;
 	margin-bottom: 30px;
+	outline: transparent solid 1px;
+	transition: all 0.3s ease-in-out;
+}
+
+.drop-container:hover,
+.drop-container:focus {
+	outline-color: #97cdf2;
+	outline-offset: 4px;
+}
+
+.drop-container .button:hover {
+	background-color: #97cdf2;
+	color: white;
 }
 
 .drop-container .button {
@@ -676,8 +695,6 @@ a {
 }
 
 /* Boutons */
-/*TODO : tester le changements de style du bouton en fonction de la validité email / mdp pour se challenger */
-
 button,
 .edit,
 [class^="button-"] {
@@ -707,7 +724,13 @@ button,
 	text-align: center;
 }
 
-.button-green {
+.button-green[data-active="false"] {
+	color: white;
+	background-color: #A7A7A7;
+	pointer-events: none;
+}
+
+.button-green[data-active="true"] {
 	color: white;
 	background-color: #1D6154;
 }

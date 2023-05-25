@@ -16,35 +16,37 @@
 </head>
 
 <body>
+	<aside class="modal" id="modal" aria-modal="true" tabindex="1">
 
-	<!-- TODO : modal accessibility and aria and focus limited to modal -->
-	<aside class="modal" id="modal" aria-modal="true">
-
-		<div class="modal-wrapper" id="modal-1" data-active="false">
-			<h3 id="modal-title">Galerie photo</h3>
+		<div class="modal-wrapper" id="modal-1" data-active="false" aria-labelledby="modal-title-1" role="dialog"
+			tabindex="1">
+			<h3 class="modal-title" id="modal-title-1">Galerie photo</h3>
 			<button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
 			<div class="modal-gallery">
 			</div>
-			<button id="modal-add-picture" class="button button-green">Ajouter une photo</button>
+			<button id="modal-add-picture" class="button button-green" data-active="true">Ajouter une photo</button>
 			<button id="modal-delete-galerie">Supprimer la galerie</button>
 		</div>
 
-		<div class="modal-wrapper" id="modal-2" data-active="false">
-			<h3 id="modal-title">Ajout Photo</h3>
-			<button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+		<div class="modal-wrapper" id="modal-2" data-active="false" aria-labelledby="modal-title-2" role="dialog">
+			<h3 class="modal-title" id="modal-title-2">Ajout Photo</h3>
 			<button class="modal-back"><i class="fa-solid fa-arrow-left-long"></i></button>
+			<button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
 			<form id="upload-image" action="">
-				<label for="input-image" class="drop-container">
-					<span id="modal-image-preview"><i class="fa-regular fa-image"></i></span>
+				<label for="input-image" id="input-image-label" class="drop-container" tabindex="0"
+					ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+					<span id=" modal-image-preview"><i class="fa-regular fa-image"></i></span>
 					<span class="button">+ Ajouter Photo</span>
 					<span class="input-image-instructions">jpg, png : 4mo max</span>
-					<input type="file" name="input-image" id="input-image" accept=".jpg, .jpeg, .png">
+					<input type="file" name="input-image" id="input-image" accept=".jpg, .jpeg, .png" tabindex="-1">
 				</label>
 				<label for="input-titre">Titre</label>
 				<!-- TODO : input === swagger pour le formData -->
 				<input name="input-titre" id="input-titre" type="text">
 				<label for="input-categorie">Catégorie</label>
-				<select name="input-categorie" id="input-categorie" type="text"></select>
+				<select name="input-categorie" id="input-categorie" type="text">
+
+				</select>
 				<span class="grey-line"></span>
 				<input type="submit" id="modal-validate-add-picture" value="Valider" data-active="false"
 					class="button button-grey"></input>
@@ -119,7 +121,8 @@
 					<input type="email" name="email" id="email">
 					<label for="message">Message</label>
 					<textarea name="message" id="message" cols="30" rows="10"></textarea>
-					<input id="contact-form-validate" type="submit" value="Envoyer" class="button button-green">
+					<input id="contact-form-validate" type="submit" value="Envoyer" class="button button-green"
+						data-active="true">
 				</form>
 			</section>
 		</main>
@@ -131,12 +134,46 @@
 			</nav>
 		</footer>
 	</div>
-
 	<script src="./scripts/fetch.js" type="module"></script>
 	<script src="./scripts/modal.js" type="module"></script>
 	<script src="./scripts/index.js" type="module"></script>
 	<script src="./scripts/works.js" type="module"></script>
 </body>
 
-
 </html>
+
+
+<!-- TODO : EXTRA drag n drop => l'event ne fire pas si j'addeventlistener dans le fichier js -->
+<!-- https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/File_drag_and_drop -->
+
+<script>
+	function dropHandler(ev) {
+		console.log("File(s) dropped");
+
+		// Prevent default behavior (Prevent file from being opened)
+		ev.preventDefault();
+
+		if (ev.dataTransfer.items) {
+			// Use DataTransferItemList interface to access the file(s)
+			[...ev.dataTransfer.items].forEach((item, i) => {
+				// If dropped items aren't files, reject them
+				if (item.kind === "file") {
+					const file = item.getAsFile();
+					console.log(`… file[${i}].name = ${file.name}`);
+				}
+			});
+		} else {
+			// Use DataTransfer interface to access the file(s)
+			[...ev.dataTransfer.files].forEach((file, i) => {
+				console.log(`… file[${i}].name = ${file.name}`);
+			});
+		}
+	}
+
+	function dragOverHandler(ev) {
+		console.log("File(s) in drop zone");
+
+		// Prevent default behavior (Prevent file from being opened)
+		ev.preventDefault();
+	}
+</script>

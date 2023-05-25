@@ -3,11 +3,12 @@ const email = document.getElementById("email");
 const password = document.getElementById("password");
 const errorText = document.querySelector(".error-text");
 
+const regex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/i;
+
 loginForm.addEventListener("submit", async (e) => {
 	e.preventDefault();
 	errorText.innerHTML = "";
 	errorText.classList.remove("visually-hidden");
-	const regex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/i;
 	const validEmail = regex.test(email.value) && email.value !== "";
 	const validPassword = password.value !== "";
 
@@ -22,7 +23,7 @@ loginForm.addEventListener("submit", async (e) => {
 
 async function loginUser() {
 	let user = {
-		email: email.value,
+		email: email.value.toLowerCase(),
 		password: password.value,
 	};
 
@@ -57,4 +58,16 @@ function shake() {
 	}, 500);
 }
 
-//TODO : user non enregistré message personnalisé en fonction faute de frappe ou retour backend
+// Active ou désactive le bouton de validation du formulaire en fonction de la validité des champs
+
+/* loginForm.addEventListener("input", () => {
+	const validEmail = regex.test(email.value) && email.value !== "";
+	const validPassword = password.value !== "";
+	const button = document.querySelector("#login-submit");
+	if (validEmail && validPassword) {
+		button.dataset.active = true;
+	} else {
+		button.dataset.active = false;
+		errorText.classList.add("visually-hidden");
+	}
+}); */
