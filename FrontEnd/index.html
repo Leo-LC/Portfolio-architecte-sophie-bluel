@@ -35,16 +35,19 @@
 			<form id="upload-image" action="">
 				<label for="input-image" id="input-image-label" class="drop-container" tabindex="0"
 					ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
-					<span id=" modal-image-preview"><i class="fa-regular fa-image"></i></span>
-					<span class="button">+ Ajouter Photo</span>
-					<span class="input-image-instructions">jpg, png : 4mo max</span>
-					<input type="file" name="input-image" id="input-image" accept=".jpg, .jpeg, .png" tabindex="-1">
+					<div class="no-preview">
+						<span id=" modal-image-preview"><i class="fa-regular fa-image"></i></span>
+						<span class="button">+ Ajouter Photo</span>
+						<span class="input-image-instructions">jpg, png : 4mo max</span>
+					</div>
+					<div class="preview"></div>
+					<input type="file" name="image" id="input-image" accept=".jpg, .jpeg, .png" tabindex="-1">
 				</label>
 				<label for="input-titre">Titre</label>
 				<!-- TODO : input === swagger pour le formData -->
-				<input name="input-titre" id="input-titre" type="text">
+				<input name="title" id="input-titre" type="text">
 				<label for="input-categorie">Catégorie</label>
-				<select name="input-categorie" id="input-categorie" type="text">
+				<select name="category" id="input-categorie" type="text">
 
 				</select>
 				<span class="grey-line"></span>
@@ -59,7 +62,7 @@
 			<i class="fa-regular fa-pen-to-square"></i>
 			<span>Mode Edition</span>
 		</div>
-		<button class="button-white">publier les changements</button>
+		<button class="button-white" id="button-publish">publier les changements</button>
 	</div>
 	<div class="global-wrapper">
 		<header>

@@ -744,3 +744,18 @@ button,
 	color: white;
 	background-color: #1D6154;
 }
+
+.preview {
+	width: 100%;
+	display: none;
+}
+
+.preview img {
+	width: 100%;
+	object-fit: contain;
+}
+
+.no-preview {
+	display: flex;
+	flex-direction: column;
+}

@@ -1,4 +1,4 @@
-import { works, categories } from "./fetch.js";
+import { works, categoriesNames, categories } from "./fetch.js";
 
 async function genererGalerie(works) {
 	const worksId = [];
@@ -27,21 +27,23 @@ async function genererGalerie(works) {
 		gallery.appendChild(work);
 	}
 }
+
 genererGalerie(works);
 ajouterBoutonsFiltrer();
 
 async function ajouterBoutonsFiltrer() {
-	categories.unshift("Tous");
-	categories.forEach((categorie) => {
+	categoriesNames.unshift("Tous");
+	/* Iterate over  categoriesNames and create a button for each category */
+	for (let i = 0; i < categoriesNames.length; i++) {
 		const filtreElement = document.createElement("button");
-		filtreElement.innerText = categorie;
+		filtreElement.innerText = categoriesNames[i];
 
 		const sectionFiltres = document.querySelector(".filtres");
 		sectionFiltres.appendChild(filtreElement);
 		filtreElement.classList.add("filtre");
 		// Call the function passing the button and the category as arguments
-		ajouterEventListener(filtreElement, categorie);
-	});
+		ajouterEventListener(filtreElement, categoriesNames[i]);
+	}
 }
 
 function ajouterEventListener(filtreElement, categorie) {
@@ -68,3 +70,4 @@ function ajouterEventListener(filtreElement, categorie) {
 		}
 	});
 }
+

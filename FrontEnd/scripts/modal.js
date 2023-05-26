@@ -1,8 +1,13 @@
-import { works, token, categories } from "./fetch.js";
+import {
+	works,
+	urlWorks,
+	token,
+	categoriesNames,
+	categoriesId,
+} from "./fetch.js";
 
 // Générer les works dans la modale
 const modalGallery = document.querySelector(".modal-gallery");
-const inputCategorie = document.getElementById("input-categorie");
 
 /* TODO QUESTION : impossible d'exporter depuis modal.js (GET
 http://127.0.0.1:5500/FrontEnd/scripts/modal
@@ -46,10 +51,14 @@ async function genererModalWorks(works) {
 	});
 
 	// Générer les options de la liste déroulante
-	categories.forEach((categorie) => {
-		// TODO : value : categorie.id de la catégorie
-		inputCategorie.innerHTML += `<option value="${categorie}">${categorie}</option>`;
-	});
+	const inputCategorie = document.getElementById("input-categorie");
+
+	for (let i = 0; i < categoriesId.length; i++) {
+		const option = document.createElement("option");
+		option.value = categoriesId[i];
+		option.textContent = categoriesNames[i];
+		inputCategorie.appendChild(option);
+	}
 }
 // Function to create icons
 function createButtonWithIcon(iconClasses, buttonClasses, clickHandler) {
@@ -112,56 +121,61 @@ async function deleteWork(id, deleteAllWorksCalled) {
 	}
 }
 
-/* TODO : 
--1 - Activer le bouton si tous les champs sont remplis
-2 - les envoyer à l'API
-3 - récupérer la réponse de l'API
-4 - ajouter la nouvelle image à la galerie -> call genererModalWorks ? 
-5 - afficher un message de succès ou d'erreur
-6 - revenir à la première modale
-*/
-
-// ADD WORKS TO THE API
+/* Add a new work to the API and the DOM */
+async function postWorks(formData) {
+	try {
+		const res = await fetch(urlWorks, {
+			method: "POST",
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+			body: formData,
+		});
+		if (res.ok) {
+			console.log(works);
+		}
+	} catch (err) {
+		console.error(err);
+	}
+}
 
 const modalForm = document.getElementById("upload-image");
-const inputImage = document.getElementById("input-image");
-const inputTitre = document.getElementById("input-titre");
-const images = inputImage.files;
-const imageName = images[0].name;
-const titre = inputTitre.value;
-const categorie = inputCategorie.value;
 
-//TODO : use formData instead
-const modalData = () => {
-	const newWork = {
-		image: imageName,
-		titre: titre,
-		categorie: categorie,
-	};
-	console.log(newWork);
-	return newWork;
-};
-
-const addPictureButton = document.getElementById("modal-validate-add-picture");
-addPictureButton.addEventListener("click", (e) => {
+//TODO : prevent le refresh de la page
+modalForm.addEventListener("submit", async (e) => {
 	e.preventDefault();
-	modalData();
+	const modalData = new FormData();
+
+	const title = document.getElementById("input-titre").value;
+	const category = document.getElementById("input-categorie").value;
+	modalData.append("title", title);
+	modalData.append("category", category);
+
+	// TODO : QUESTION : je me suis cassé la tête pendant 3h en essayant de convertir en "string binary"
+	const file = document.getElementById("input-image").files[0];
+	modalData.append("image", file);
+	await postWorks(modalData);
 });
 
-// TODO : Update le preview de l'image dans la modale
-inputImage.addEventListener("change", () => {
-	const loadedImage = inputImage.files[0];
-	const imagePreview = document.querySelector(".drop-container");
+const buttonPublish = document.getElementById("button-publish");
+buttonPublish.addEventListener("click", () => {
+	event.preventDefault();
+	window.location.reload();
+});
 
-	if (loadedImage) {
-		const reader = new FileReader();
-		reader.addEventListener("load", () => {
-			const preview = document.createElement("img");
-			preview.src = reader.result;
-			imagePreview.innerHTML = "";
-			imagePreview.innerHTML = `<img src="${preview.src}"> <input type="file" name="input-image" id="input-image" accept=".jpg, .jpeg, .png">`;
-		});
-		reader.readAsDataURL(loadedImage);
+// Update le preview de l'image dans la modale
+const noPreview = document.querySelector(".no-preview");
+const preview = document.querySelector(".preview");
+const imageInput = document.getElementById("input-image");
+imageInput.addEventListener("change", () => {
+	const image = imageInput.files[0];
+	if (image) {
+		noPreview.style.display = "none";
+		preview.style.display = "grid";
+		console.log(image);
+		//TODO : gérer les styles pour que ça ne repousse pas le reste de la modale
+		preview.innerHTML = `<img src="${URL.createObjectURL(
+			image
+		)}" alt="Preview de l'image à uploader" />`;
 	}
 });
-
