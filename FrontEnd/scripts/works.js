@@ -39,8 +39,8 @@ async function ajouterBoutonsFiltrer() {
 	categories.unshift({ categoryId: 0, categoryName: "Tous" });
 	const sectionFiltres = document.querySelector(".filtres");
 
-	//TODO : QUESTION : map (new array returned ? ) vs forEach (no new array returned ?) => quelle approche est la plus adaptée ?  
-/* 		categories.map(({ categoryId, categoryName }) => {
+	//TODO : QUESTION : map (new array returned ? ) vs forEach (no new array returned ?) => quelle approche est la plus adaptée ?
+	/* 		categories.map(({ categoryId, categoryName }) => {
 		const filtreElement = document.createElement("button");
 		filtreElement.innerText = categoryName;
 		filtreElement.classList.add("filtre");
@@ -81,4 +81,3 @@ function ajouterEventListener(filtreElement, categorie) {
 		}
 	});
 }
-console.log(categories);
