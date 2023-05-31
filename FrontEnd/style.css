@@ -206,13 +206,13 @@ li:hover {
 	flex: 1
 }
 
-#introduction img,
-#introduction span {
+#introduction img {
 	display: block;
 	width: 100%;
 }
 
-#introduction span {
+#introduction .edit {
+	display: block;
 	top: 20px;
 	position: relative;
 }
@@ -240,7 +240,7 @@ li:hover {
 	margin: auto;
 }
 
-#portfolio span {
+#portfolio .edit {
 	position: absolute;
 	right: -100px;
 }
@@ -291,7 +291,7 @@ li:hover {
 	margin-bottom: -1rem;
 }
 
-.edition-tab button {
+.button-white {
 	background-color: white;
 	color: black;
 	border: none;
@@ -612,7 +612,6 @@ a {
 }
 
 #upload-image input,
-#upload-image div,
 #input-categorie {
 	margin-block: 16px;
 }
@@ -643,7 +642,7 @@ a {
 	flex-direction: column;
 	cursor: pointer;
 	background-color: #E8F1F7;
-	padding: 26px 124px;
+	padding: 42px 124px;
 	margin-bottom: 30px;
 	outline: transparent solid 1px;
 	transition: all 0.3s ease-in-out;
@@ -651,6 +650,11 @@ a {
 
 .drop-container:hover,
 .drop-container:focus {
+	outline-color: #97cdf2;
+	outline-offset: 4px;
+}
+
+.dragover {
 	outline-color: #97cdf2;
 	outline-offset: 4px;
 }
@@ -701,6 +705,19 @@ button,
 	cursor: pointer;
 }
 
+.edition-tab .edit {
+	background-color: transparent;
+	border: none;
+	color: white;
+}
+
+#portfolio .edit,
+#introduction .edit {
+	background-color: transparent;
+	border: none;
+}
+
+
 .button-green:hover,
 .button-green:focus,
 .button-green:active {
@@ -724,7 +741,8 @@ button,
 	text-align: center;
 }
 
-.button-green[data-active="false"] {
+.button-green[data-active="false"],
+.button-grey[data-active="false"] {
 	color: white;
 	background-color: #A7A7A7;
 	pointer-events: none;
@@ -746,13 +764,15 @@ button,
 }
 
 .preview {
-	width: 100%;
 	display: none;
+	justify-content: center;
+	align-items: center;
 }
 
 .preview img {
-	width: 100%;
-	object-fit: contain;
+	aspect-ratio: 3/4;
+	object-fit: cover;
+	max-width: 130px;
 }
 
 .no-preview {

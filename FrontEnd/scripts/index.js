@@ -40,7 +40,6 @@ function handleLogout() {
 	window.location.reload();
 }
 
-// TODO : QUESTION : j'essaye de mettre la fonction dans modal.js et de l'importer ici mais ça ne marche pas, pourquoi ?
 function openModal() {
 	const modals = document.querySelectorAll(".modal-wrapper");
 	const modal = document.querySelector(".modal");

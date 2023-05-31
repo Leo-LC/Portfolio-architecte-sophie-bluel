@@ -1,4 +1,4 @@
-import { works, categoriesNames, categories } from "./fetch.js";
+import { works, categories } from "./fetch.js";
 
 async function genererGalerie(works) {
 	const worksId = [];
@@ -19,6 +19,9 @@ async function genererGalerie(works) {
 		const workTitle = document.createElement("figcaption");
 
 		// Add attributes and append elements to the DOM
+		workImage.style.width = "100%";
+		workImage.style.aspectRatio = "3/4";
+		workImage.style.objectFit = "cover";
 		workImage.src = worksImageUrl[i];
 		workTitle.innerText = worksTitle[i];
 
@@ -32,18 +35,26 @@ genererGalerie(works);
 ajouterBoutonsFiltrer();
 
 async function ajouterBoutonsFiltrer() {
-	categoriesNames.unshift("Tous");
-	/* Iterate over  categoriesNames and create a button for each category */
-	for (let i = 0; i < categoriesNames.length; i++) {
-		const filtreElement = document.createElement("button");
-		filtreElement.innerText = categoriesNames[i];
+	/* Iterate over  categories and create a button for each category */
+	categories.unshift({ categoryId: 0, categoryName: "Tous" });
+	const sectionFiltres = document.querySelector(".filtres");
 
-		const sectionFiltres = document.querySelector(".filtres");
-		sectionFiltres.appendChild(filtreElement);
+	//TODO : QUESTION : map (new array returned ? ) vs forEach (no new array returned ?) => quelle approche est la plus adaptée ?  
+/* 		categories.map(({ categoryId, categoryName }) => {
+		const filtreElement = document.createElement("button");
+		filtreElement.innerText = categoryName;
 		filtreElement.classList.add("filtre");
-		// Call the function passing the button and the category as arguments
-		ajouterEventListener(filtreElement, categoriesNames[i]);
-	}
+		sectionFiltres.appendChild(filtreElement);
+		ajouterEventListener(filtreElement, categoryName);
+	});  */
+
+	categories.forEach((categorie) => {
+		const filtreElement = document.createElement("button");
+		filtreElement.innerText = categorie.categoryName;
+		filtreElement.classList.add("filtre");
+		sectionFiltres.appendChild(filtreElement);
+		ajouterEventListener(filtreElement, categorie.categoryName);
+	});
 }
 
 function ajouterEventListener(filtreElement, categorie) {
@@ -70,4 +81,4 @@ function ajouterEventListener(filtreElement, categorie) {
 		}
 	});
 }
-
+console.log(categories);

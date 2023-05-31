@@ -1,21 +1,7 @@
-import {
-	works,
-	urlWorks,
-	token,
-	categoriesNames,
-	categoriesId,
-} from "./fetch.js";
+import { works, urlWorks, token, categories } from "./fetch.js";
 
 // Générer les works dans la modale
 const modalGallery = document.querySelector(".modal-gallery");
-
-/* TODO QUESTION : impossible d'exporter depuis modal.js (GET
-http://127.0.0.1:5500/FrontEnd/scripts/modal
-
-Le chargement du module à l’adresse « http://127.0.0.1:5500/FrontEnd/scripts/modal » a été bloqué en raison d’un type MIME interdit (« text/html »).
-index.html
-Échec du chargement pour le module dont la source est « http://127.0.0.1:5500/FrontEnd/scripts/modal ».) */
-
 async function genererModalWorks(works) {
 	works.forEach((work) => {
 		const figure = document.createElement("figure");
@@ -25,6 +11,9 @@ async function genererModalWorks(works) {
 		figcaption.innerText = "éditer";
 
 		const image = document.createElement("img");
+		image.style.width = "100%";
+		image.style.aspectRatio = "3/4";
+		image.style.objectFit = "cover";
 		image.src = work.imageUrl;
 		image.dataset.id = work.id;
 
@@ -50,15 +39,14 @@ async function genererModalWorks(works) {
 		modalGallery.appendChild(figure);
 	});
 
-	// Générer les options de la liste déroulante
+	// Iterate over the categories array to create options
 	const inputCategorie = document.getElementById("input-categorie");
-
-	for (let i = 0; i < categoriesId.length; i++) {
+	categories.forEach((category) => {
 		const option = document.createElement("option");
-		option.value = categoriesId[i];
-		option.textContent = categoriesNames[i];
+		option.value = category.categoryId;
+		option.textContent = category.categoryName;
 		inputCategorie.appendChild(option);
-	}
+	});
 }
 // Function to create icons
 function createButtonWithIcon(iconClasses, buttonClasses, clickHandler) {
@@ -71,29 +59,27 @@ function createButtonWithIcon(iconClasses, buttonClasses, clickHandler) {
 	return button;
 }
 
-//TODO QUESTION following : comment l'appeler uniquement au moment d'open la modale ? Est-ce nécessaire en terme d'optimisation ?
+// Génère la modale
 genererModalWorks(works);
 
 // Delete all works from the API and the DOM
 const deleteAllButton = document.getElementById("modal-delete-galerie");
-deleteAllButton.addEventListener("click", confirmDeleteAll);
+deleteAllButton.addEventListener("click", (e) => {
+	e.preventDefault();
+	deleteAllWorks(works);
+});
 
-function confirmDeleteAll() {
-	const confirmation = confirm(
-		"Voulez-vous vraiment supprimer toute votre galerie ?"
-	);
-	if (confirmation) {
-		deleteAllWorks(works);
-	}
-}
 async function deleteAllWorks(works) {
-	// If the user confirms, proceed with deletion
-	works.forEach((work) => deleteWork(work.id, true));
+	works.forEach((work) => {
+		if (work) {
+			deleteWork(work.id, true);
+		}
+	});
 	alert("Votre galerie a bien été supprimée");
 	console.log("All done");
 }
 // Delete one work from the API and the DOM
-async function deleteWork(id, deleteAllWorksCalled) {
+async function deleteWork(id) {
 	try {
 		const res = await fetch(`http://localhost:5678/api/works/${id}`, {
 			method: "DELETE",
@@ -103,18 +89,9 @@ async function deleteWork(id, deleteAllWorksCalled) {
 			},
 		});
 		if (res.ok) {
-			if (!deleteAllWorksCalled) {
-				const confirmation = confirm(
-					"Voulez-vous vraiment supprimer cette image ?"
-				);
-				if (confirmation) {
-					const deletedWork = document.querySelector(`[data-id="${id}"]`);
-					deletedWork.parentElement.remove();
-				}
-			} else {
-				const deletedWork = document.querySelector(`[data-id="${id}"]`);
-				deletedWork ? deletedWork.parentElement.remove() : null;
-			}
+			const deletedWork = document.querySelector(`[data-id="${id}"]`);
+			deletedWork ? deletedWork.parentElement.remove() : null;
+			//TODO : QUESTION : générer la galerie à chaque fois ?
 		}
 	} catch (err) {
 		console.error(err);
@@ -122,6 +99,7 @@ async function deleteWork(id, deleteAllWorksCalled) {
 }
 
 /* Add a new work to the API and the DOM */
+//TODO : QUESTION : prevent refresh ?
 async function postWorks(formData) {
 	try {
 		const res = await fetch(urlWorks, {
@@ -131,8 +109,8 @@ async function postWorks(formData) {
 			},
 			body: formData,
 		});
-		if (res.ok) {
-			console.log(works);
+		if (!res.ok) {
+			console.log(res.status);
 		}
 	} catch (err) {
 		console.error(err);
@@ -140,8 +118,6 @@ async function postWorks(formData) {
 }
 
 const modalForm = document.getElementById("upload-image");
-
-//TODO : prevent le refresh de la page
 modalForm.addEventListener("submit", async (e) => {
 	e.preventDefault();
 	const modalData = new FormData();
@@ -151,14 +127,45 @@ modalForm.addEventListener("submit", async (e) => {
 	modalData.append("title", title);
 	modalData.append("category", category);
 
-	// TODO : QUESTION : je me suis cassé la tête pendant 3h en essayant de convertir en "string binary"
 	const file = document.getElementById("input-image").files[0];
 	modalData.append("image", file);
 	await postWorks(modalData);
+	// Reset the form after submission
+	modalForm.reset();
+});
+
+// Activate the button when the user has filled all the fields
+const modal2 = document.querySelector("#modal-2");
+modal2.addEventListener("input", function () {
+	const button = document.getElementById("modal-validate-add-picture");
+	const inputTitle = document.getElementById("input-titre");
+	const inputCategory = document.getElementById("input-categorie");
+	const inputImage = document.getElementById("input-image");
+
+	function updateDataActive() {
+		let hasValues = false;
+
+		if (
+			inputTitle.value.trim() !== "" &&
+			inputCategory.value.trim() !== "" &&
+			inputImage.files.length > 0
+		) {
+			hasValues = true;
+		}
+
+		if (hasValues) {
+			button.dataset.active = "true";
+		} else {
+			button.dataset.active = "false";
+		}
+	}
+	inputTitle.addEventListener("input", updateDataActive);
+	inputCategory.addEventListener("input", updateDataActive);
+	inputImage.addEventListener("change", updateDataActive);
 });
 
 const buttonPublish = document.getElementById("button-publish");
-buttonPublish.addEventListener("click", () => {
+buttonPublish.addEventListener("click", (event) => {
 	event.preventDefault();
 	window.location.reload();
 });
@@ -167,15 +174,39 @@ buttonPublish.addEventListener("click", () => {
 const noPreview = document.querySelector(".no-preview");
 const preview = document.querySelector(".preview");
 const imageInput = document.getElementById("input-image");
+const dropZone = document.getElementById("input-image-label");
+
+const updateImagePreview = (image) => {
+	noPreview.style.display = "none";
+	preview.style.display = "flex";
+	dropZone.style.paddingBlock = "0";
+	preview.innerHTML = `<img src="${URL.createObjectURL(
+		image
+	)}" alt="Preview de l'image à uploader" />`;
+};
+
 imageInput.addEventListener("change", () => {
 	const image = imageInput.files[0];
 	if (image) {
-		noPreview.style.display = "none";
-		preview.style.display = "grid";
-		console.log(image);
-		//TODO : gérer les styles pour que ça ne repousse pas le reste de la modale
-		preview.innerHTML = `<img src="${URL.createObjectURL(
-			image
-		)}" alt="Preview de l'image à uploader" />`;
+		updateImagePreview(image);
+	}
+});
+// Handle drag and drop of images
+
+dropZone.addEventListener("dragover", (e) => {
+	e.preventDefault();
+	dropZone.classList.add("dragover");
+});
+dropZone.addEventListener("dragleave", (e) => {
+	e.preventDefault();
+	dropZone.classList.remove("dragover");
+});
+dropZone.addEventListener("drop", (e) => {
+	e.preventDefault();
+	dropZone.classList.remove("dragover");
+	const image = e.dataTransfer.files[0];
+
+	if (image) {
+		updateImagePreview(image);
 	}
 });

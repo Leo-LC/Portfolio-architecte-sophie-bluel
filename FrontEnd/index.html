@@ -16,6 +16,8 @@
 </head>
 
 <body>
+
+	<!-- MODALE, masquée par défaut -->
 	<aside class="modal" id="modal" aria-modal="true" tabindex="1">
 
 		<div class="modal-wrapper" id="modal-1" data-active="false" aria-labelledby="modal-title-1" role="dialog"
@@ -32,9 +34,8 @@
 			<h3 class="modal-title" id="modal-title-2">Ajout Photo</h3>
 			<button class="modal-back"><i class="fa-solid fa-arrow-left-long"></i></button>
 			<button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
-			<form id="upload-image" action="">
-				<label for="input-image" id="input-image-label" class="drop-container" tabindex="0"
-					ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+			<form id="upload-image">
+				<label for="input-image" id="input-image-label" class="drop-container" tabindex="0">
 					<div class="no-preview">
 						<span id=" modal-image-preview"><i class="fa-regular fa-image"></i></span>
 						<span class="button">+ Ajouter Photo</span>
@@ -44,7 +45,6 @@
 					<input type="file" name="image" id="input-image" accept=".jpg, .jpeg, .png" tabindex="-1">
 				</label>
 				<label for="input-titre">Titre</label>
-				<!-- TODO : input === swagger pour le formData -->
 				<input name="title" id="input-titre" type="text">
 				<label for="input-categorie">Catégorie</label>
 				<select name="category" id="input-categorie" type="text">
@@ -57,11 +57,13 @@
 
 		</div>
 	</aside>
+
+	<!-- Bandeau d'édition, masqué par défaut -->
 	<div class="edition-tab">
-		<div class="edit">
+		<button class="edit">
 			<i class="fa-regular fa-pen-to-square"></i>
 			<span>Mode Edition</span>
-		</div>
+		</button>
 		<button class="button-white" id="button-publish">publier les changements</button>
 	</div>
 	<div class="global-wrapper">
@@ -84,7 +86,7 @@
 			<section id="introduction">
 				<figure>
 					<img src="./assets/images/sophie-bluel.png" alt="">
-					<span class="edit visually-hidden"><i class="fa-regular fa-pen-to-square"></i> modifier</span>
+					<button class="edit visually-hidden"><i class="fa-regular fa-pen-to-square"></i> modifier</button>
 				</figure>
 				<article>
 					<h2>Designer d'espace</h2>
@@ -97,16 +99,12 @@
 					<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG,
 						décorateur(trice)</p>
 				</article>
-				<div class="edit modifier-profile visually-hidden">
-
-
-				</div>
 			</section>
 			<section id="portfolio">
 				<div class="utility-wrapper">
 					<h2>Mes Projets</h2>
-					<span class="edit modifier-titre visually-hidden"><i class="fa-regular fa-pen-to-square"></i>
-						modifier</span>
+					<button class="edit modifier-titre visually-hidden"><i class="fa-regular fa-pen-to-square"></i>
+						modifier</button>
 				</div>
 
 				<div class="filtres">
@@ -144,39 +142,3 @@
 </body>
 
 </html>
-
-
-<!-- TODO : EXTRA drag n drop => l'event ne fire pas si j'addeventlistener dans le fichier js -->
-<!-- https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/File_drag_and_drop -->
-
-<script>
-	function dropHandler(ev) {
-		console.log("File(s) dropped");
-
-		// Prevent default behavior (Prevent file from being opened)
-		ev.preventDefault();
-
-		if (ev.dataTransfer.items) {
-			// Use DataTransferItemList interface to access the file(s)
-			[...ev.dataTransfer.items].forEach((item, i) => {
-				// If dropped items aren't files, reject them
-				if (item.kind === "file") {
-					const file = item.getAsFile();
-					console.log(`… file[${i}].name = ${file.name}`);
-				}
-			});
-		} else {
-			// Use DataTransfer interface to access the file(s)
-			[...ev.dataTransfer.files].forEach((file, i) => {
-				console.log(`… file[${i}].name = ${file.name}`);
-			});
-		}
-	}
-
-	function dragOverHandler(ev) {
-		console.log("File(s) in drop zone");
-
-		// Prevent default behavior (Prevent file from being opened)
-		ev.preventDefault();
-	}
-</script>

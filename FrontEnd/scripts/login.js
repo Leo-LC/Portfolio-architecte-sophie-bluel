@@ -42,7 +42,7 @@ async function loginUser() {
 		if (response.ok) {
 			localStorage.setItem("userToken", data.token);
 			window.location.href = "./index.html";
-		} else if (response.status === 404) {
+		} else {
 			errorText.innerHTML = "Utilisateur non enregistré";
 			shake();
 		}
@@ -57,17 +57,3 @@ function shake() {
 		loginForm.classList.remove("shake");
 	}, 500);
 }
-
-// Active ou désactive le bouton de validation du formulaire en fonction de la validité des champs
-
-/* loginForm.addEventListener("input", () => {
-	const validEmail = regex.test(email.value) && email.value !== "";
-	const validPassword = password.value !== "";
-	const button = document.querySelector("#login-submit");
-	if (validEmail && validPassword) {
-		button.dataset.active = true;
-	} else {
-		button.dataset.active = false;
-		errorText.classList.add("visually-hidden");
-	}
-}); */

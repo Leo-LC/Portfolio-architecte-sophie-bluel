@@ -2,11 +2,6 @@
 
 ### PROBLEMES RENCONTRES ET QUESTIONS
 
-TODO : QUESTIONS
-
-- Impossible de TAB/ENTER sur les liens (navbar, modifier...)
-
-- Bannière de modifications : l'icone / le texte doivent-ils être considérés comme des boutons ?
 
 ### A garder dans un coin pour comprendre le fonctionnement si besoin
 
