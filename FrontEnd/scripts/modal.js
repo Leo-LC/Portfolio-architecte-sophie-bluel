@@ -4,38 +4,7 @@ import { works, urlWorks, token, categories } from "./fetch.js";
 const modalGallery = document.querySelector(".modal-gallery");
 async function genererModalWorks(works) {
 	works.forEach((work) => {
-		const figure = document.createElement("figure");
-		figure.classList.add("modal-gallery-figure");
-
-		const figcaption = document.createElement("figcaption");
-		figcaption.innerText = "éditer";
-
-		const image = document.createElement("img");
-		image.style.width = "100%";
-		image.style.aspectRatio = "3/4";
-		image.style.objectFit = "cover";
-		image.src = work.imageUrl;
-		image.dataset.id = work.id;
-
-		const deleteIcon = createButtonWithIcon(
-			["fa-solid", "fa-trash-can"],
-			["modal-picture-delete"],
-			() => deleteWork(work.id, false)
-		);
-
-		const moveIcon = createButtonWithIcon(
-			["fa-solid", "fa-up-down-left-right"],
-			["modal-picture-move"],
-			() => console.log("move")
-		);
-
-		figure.appendChild(image);
-		figure.appendChild(figcaption);
-		figure.appendChild(deleteIcon);
-		// Append moveIcon to figure on mouseover and remove on mouseout
-		figure.addEventListener("mouseenter", () => figure.appendChild(moveIcon));
-		figure.addEventListener("mouseleave", () => figure.removeChild(moveIcon));
-
+		const figure = createModalGalleryFigure(work);
 		modalGallery.appendChild(figure);
 	});
 
@@ -47,6 +16,46 @@ async function genererModalWorks(works) {
 		option.textContent = category.categoryName;
 		inputCategorie.appendChild(option);
 	});
+}
+
+// Function to create and append elements
+function createModalGalleryFigure(work) {
+	const figure = document.createElement("figure");
+	figure.classList.add("modal-gallery-figure");
+
+	const figcaption = document.createElement("figcaption");
+	figcaption.innerText = "éditer";
+
+	const image = document.createElement("img");
+	image.style.width = "100%";
+	image.style.aspectRatio = "3/4";
+	image.style.objectFit = "cover";
+	image.src = work.imageUrl;
+	image.dataset.id = work.id;
+
+	const deleteIcon = createButtonWithIcon(
+		["fa-solid", "fa-trash-can"],
+		["modal-picture-delete"],
+		(e) => {
+			e.preventDefault();
+			deleteWork(work.id);
+		}
+	);
+
+	const moveIcon = createButtonWithIcon(
+		["fa-solid", "fa-up-down-left-right"],
+		["modal-picture-move"],
+		() => console.log("move")
+	);
+
+	figure.appendChild(image);
+	figure.appendChild(figcaption);
+	figure.appendChild(deleteIcon);
+	// Append moveIcon to figure on mouseover and remove on mouseout
+	figure.addEventListener("mouseenter", () => figure.appendChild(moveIcon));
+	figure.addEventListener("mouseleave", () => figure.removeChild(moveIcon));
+
+	return figure;
 }
 // Function to create icons
 function createButtonWithIcon(iconClasses, buttonClasses, clickHandler) {
@@ -62,23 +71,7 @@ function createButtonWithIcon(iconClasses, buttonClasses, clickHandler) {
 // Génère la modale
 genererModalWorks(works);
 
-// Delete all works from the API and the DOM
-const deleteAllButton = document.getElementById("modal-delete-galerie");
-deleteAllButton.addEventListener("click", (e) => {
-	e.preventDefault();
-	deleteAllWorks(works);
-});
-
-async function deleteAllWorks(works) {
-	works.forEach((work) => {
-		if (work) {
-			deleteWork(work.id, true);
-		}
-	});
-	alert("Votre galerie a bien été supprimée");
-	console.log("All done");
-}
-// Delete one work from the API and the DOM
+// Calls API to delete works from the API and the DOM
 async function deleteWork(id) {
 	try {
 		const res = await fetch(`http://localhost:5678/api/works/${id}`, {
@@ -91,15 +84,29 @@ async function deleteWork(id) {
 		if (res.ok) {
 			const deletedWork = document.querySelector(`[data-id="${id}"]`);
 			deletedWork ? deletedWork.parentElement.remove() : null;
-			//TODO : QUESTION : générer la galerie à chaque fois ?
 		}
 	} catch (err) {
 		console.error(err);
 	}
 }
 
+// Delete all works from the API and the DOM
+const deleteAllButton = document.getElementById("modal-delete-galerie");
+deleteAllButton.addEventListener("click", (e) => {
+	e.preventDefault();
+	const confirmed = window.confirm(
+		"Are you sure you want to delete all works?"
+	);
+	if (confirmed) {
+		deleteAllWorks(works);
+	}
+});
+async function deleteAllWorks(works) {
+	await Promise.all(works.map((work) => deleteWork(work.id)));
+	alert("Votre galerie a bien été supprimée");
+}
+
 /* Add a new work to the API and the DOM */
-//TODO : QUESTION : prevent refresh ?
 async function postWorks(formData) {
 	try {
 		const res = await fetch(urlWorks, {
@@ -118,51 +125,34 @@ async function postWorks(formData) {
 }
 
 const modalForm = document.getElementById("upload-image");
-modalForm.addEventListener("submit", async (e) => {
+modalForm.addEventListener("submit", handleFormSubmit);
+
+async function handleFormSubmit(e) {
 	e.preventDefault();
-	const modalData = new FormData();
 
-	const title = document.getElementById("input-titre").value;
-	const category = document.getElementById("input-categorie").value;
-	modalData.append("title", title);
-	modalData.append("category", category);
-
-	const file = document.getElementById("input-image").files[0];
-	modalData.append("image", file);
+	const modalData = new FormData(modalForm);
 	await postWorks(modalData);
 	// Reset the form after submission
 	modalForm.reset();
-});
+}
 
 // Activate the button when the user has filled all the fields
-const modal2 = document.querySelector("#modal-2");
-modal2.addEventListener("input", function () {
-	const button = document.getElementById("modal-validate-add-picture");
-	const inputTitle = document.getElementById("input-titre");
-	const inputCategory = document.getElementById("input-categorie");
-	const inputImage = document.getElementById("input-image");
+const titleInput = document.getElementById("input-titre");
+const categoryInput = document.getElementById("input-categorie");
+const imageInput = document.getElementById("input-image");
+const submitButton = document.getElementById("modal-validate-add-picture");
 
-	function updateDataActive() {
-		let hasValues = false;
-
-		if (
-			inputTitle.value.trim() !== "" &&
-			inputCategory.value.trim() !== "" &&
-			inputImage.files.length > 0
-		) {
-			hasValues = true;
-		}
-
-		if (hasValues) {
-			button.dataset.active = "true";
-		} else {
-			button.dataset.active = "false";
-		}
+function checkFormValidity() {
+	if (titleInput.value && categoryInput.value && imageInput.files.length > 0) {
+		submitButton.removeAttribute("disabled");
+	} else {
+		submitButton.setAttribute("disabled", "");
 	}
-	inputTitle.addEventListener("input", updateDataActive);
-	inputCategory.addEventListener("input", updateDataActive);
-	inputImage.addEventListener("change", updateDataActive);
-});
+}
+
+titleInput.addEventListener("input", checkFormValidity);
+categoryInput.addEventListener("input", checkFormValidity);
+imageInput.addEventListener("change", checkFormValidity);
 
 const buttonPublish = document.getElementById("button-publish");
 buttonPublish.addEventListener("click", (event) => {
@@ -173,7 +163,6 @@ buttonPublish.addEventListener("click", (event) => {
 // Update le preview de l'image dans la modale
 const noPreview = document.querySelector(".no-preview");
 const preview = document.querySelector(".preview");
-const imageInput = document.getElementById("input-image");
 const dropZone = document.getElementById("input-image-label");
 
 const updateImagePreview = (image) => {

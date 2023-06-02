@@ -741,6 +741,7 @@ button,
 	text-align: center;
 }
 
+.button-grey[disabled],
 .button-green[data-active="false"],
 .button-grey[data-active="false"] {
 	color: white;
@@ -758,7 +759,7 @@ button,
 	color: white;
 }
 
-.button-grey[data-active="true"] {
+.button-grey {
 	color: white;
 	background-color: #1D6154;
 }

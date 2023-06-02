@@ -39,21 +39,12 @@ async function ajouterBoutonsFiltrer() {
 	categories.unshift({ categoryId: 0, categoryName: "Tous" });
 	const sectionFiltres = document.querySelector(".filtres");
 
-	//TODO : QUESTION : map (new array returned ? ) vs forEach (no new array returned ?) => quelle approche est la plus adaptée ?
-	/* 		categories.map(({ categoryId, categoryName }) => {
+	categories.map(({ categoryId, categoryName }) => {
 		const filtreElement = document.createElement("button");
 		filtreElement.innerText = categoryName;
 		filtreElement.classList.add("filtre");
 		sectionFiltres.appendChild(filtreElement);
 		ajouterEventListener(filtreElement, categoryName);
-	});  */
-
-	categories.forEach((categorie) => {
-		const filtreElement = document.createElement("button");
-		filtreElement.innerText = categorie.categoryName;
-		filtreElement.classList.add("filtre");
-		sectionFiltres.appendChild(filtreElement);
-		ajouterEventListener(filtreElement, categorie.categoryName);
 	});
 }
 
