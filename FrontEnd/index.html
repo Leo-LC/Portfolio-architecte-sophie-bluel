@@ -51,6 +51,7 @@
 
 				</select>
 				<span class="grey-line"></span>
+				<span class="error-text">Veuillez remplir tous les champs</span>
 				<input type="submit" id="modal-validate-add-picture" value="Valider" class="button button-grey"
 					disabled></input>
 			</form>
@@ -58,7 +59,7 @@
 		</div>
 	</aside>
 
-	<!-- Bandeau d'édition, masqué par défaut -->
+	<!-- * Bandeau d'édition, masqué par défaut -->
 	<div class="edition-tab">
 		<button class="edit">
 			<i class="fa-regular fa-pen-to-square"></i>
@@ -86,9 +87,12 @@
 			<section id="introduction">
 				<figure>
 					<img src="./assets/images/sophie-bluel.png" alt="">
-					<button class="edit visually-hidden"><i class="fa-regular fa-pen-to-square"></i> modifier</button>
+					<button class="edit modifier-hero visually-hidden"><i class="fa-regular fa-pen-to-square"></i>
+						modifier</button>
 				</figure>
 				<article>
+					<button class="edit modifier-titre visually-hidden"><i class="fa-regular fa-pen-to-square"></i>
+						modifier</button>
 					<h2>Designer d'espace</h2>
 					<p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la
 						livraison
@@ -103,7 +107,8 @@
 			<section id="portfolio">
 				<div class="utility-wrapper">
 					<h2>Mes Projets</h2>
-					<button class="edit modifier-titre visually-hidden"><i class="fa-regular fa-pen-to-square"></i>
+					<button class="edit modifier-description visually-hidden"><i
+							class="fa-regular fa-pen-to-square"></i>
 						modifier</button>
 				</div>
 

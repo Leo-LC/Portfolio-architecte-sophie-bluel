@@ -141,3 +141,5 @@ const contactForm = document.getElementById("contact-form-validate");
 contactForm.addEventListener("click", (e) => {
 	e.preventDefault();
 });
+
+// TODO : Déclarer avant d'appeler 

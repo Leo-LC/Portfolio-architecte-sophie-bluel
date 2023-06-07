@@ -21,8 +21,6 @@ works.forEach((work) => {
 	}
 });
 
-
-
 async function fetchWorks(url) {
 	try {
 		const response = await fetch(url);

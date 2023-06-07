@@ -18,7 +18,7 @@ async function genererGalerie(works) {
 		const workImage = document.createElement("img");
 		const workTitle = document.createElement("figcaption");
 
-		// Add attributes and append elements to the DOM
+		// Add attributes and append elements to the DOM ( -> Could be done with css instead) //
 		workImage.style.width = "100%";
 		workImage.style.aspectRatio = "3/4";
 		workImage.style.objectFit = "cover";
@@ -47,7 +47,6 @@ async function ajouterBoutonsFiltrer() {
 		ajouterEventListener(filtreElement, categoryName);
 	});
 }
-
 function ajouterEventListener(filtreElement, categorie) {
 	filtreElement.addEventListener("click", (e) => {
 		const gallery = document.querySelector(".gallery");

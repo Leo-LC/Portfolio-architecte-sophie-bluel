@@ -141,12 +141,32 @@ const titleInput = document.getElementById("input-titre");
 const categoryInput = document.getElementById("input-categorie");
 const imageInput = document.getElementById("input-image");
 const submitButton = document.getElementById("modal-validate-add-picture");
+const errorMessage = modalForm.querySelector(".error-text");
 
 function checkFormValidity() {
 	if (titleInput.value && categoryInput.value && imageInput.files.length > 0) {
+		errorMessage.classList.add("visually-hidden");
 		submitButton.removeAttribute("disabled");
+	} else if (
+		titleInput.value &&
+		categoryInput.value &&
+		imageInput.files.length == 0
+	) {
+		submitButton.setAttribute("disabled", "");
+		errorMessage.classList.remove("visually-hidden");
+		errorMessage.innerText = "Ajoutez une image";
+	} else if (
+		!titleInput.value &&
+		categoryInput.value &&
+		imageInput.files.length > 0
+	) {
+		submitButton.setAttribute("disabled", "");
+		errorMessage.classList.remove("visually-hidden");
+		errorMessage.innerText = "Ajoutez un titre";
 	} else {
 		submitButton.setAttribute("disabled", "");
+		errorMessage.classList.remove("visually-hidden");
+		errorMessage.innerText = "Veuillez remplir tous les champs";
 	}
 }
 
